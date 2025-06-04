@@ -2,401 +2,381 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Suporte Técnico Moderno</title>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbox Suporte</title>
   <style>
-    :root {
-      --cor-primaria: #003366;
-      --cor-secundaria: #ffffff;
-      --cor-acento: #00bfff;
-    }
-    * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: #f0f2f5;
-      color: #333;
-      scroll-behavior: smooth;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0; padding: 0;
+      display: flex; flex-direction: column; height: 100vh;
     }
-    header {
-      background-color: var(--cor-primaria);
-      color: var(--cor-secundaria);
-      padding: 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header nav a {
-      color: var(--cor-secundaria);
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    main {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      color: var(--cor-primaria);
-      margin-top: 40px;
-      text-align: center;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 20px;
-      transition: transform 0.3s;
-    }
-    .card:hover { transform: scale(1.03); }
-    .card i {
-      font-size: 2em;
-      color: var(--cor-acento);
-      margin-bottom: 10px;
-    }
-    form {
+    #chat {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    form input, form textarea {
-      padding: 10px;
+      max-width: 600px;
+      margin: auto;
+      background: white;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    form button {
-      background: var(--cor-primaria);
-      color: white;
+    #chatLog {
+      flex: 1;
       padding: 10px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ccc;
+    }
+    .msg {
+      margin: 8px 0;
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 15px;
+      line-height: 1.4;
+    }
+    .user {
+      background: #0084ff;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+    }
+    .bot {
+      background: #e5e5ea;
+      color: #000;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+    }
+    #inputArea {
+      display: flex;
+      padding: 10px;
+      background: #fafafa;
+    }
+    #inputMsg {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+    }
+    #sendBtn {
+      padding: 10px 20px;
+      margin-left: 10px;
+      font-size: 16px;
       border: none;
-      border-radius: 5px;
+      border-radius: 20px;
+      background: #0084ff;
+      color: white;
       cursor: pointer;
       transition: background 0.3s;
     }
-    form button:hover {
-      background: #00509e;
+    #sendBtn:hover {
+      background: #006fcc;
     }
-    /* Chatbox */
-    .chatbox {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 320px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      z-index: 9999;
-      font-size: 14px;
-    }
-    .chatbox-header {
-      background: var(--cor-primaria);
-      color: white;
-      padding: 10px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .chatbox-header button {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 16px;
+    a.chat-suggestion {
+      color: #0084ff;
       cursor: pointer;
-    }
-    .chat-log {
-      height: 200px;
-      overflow-y: auto;
-      padding: 10px;
-      background: #e6f0fa;
-      border-bottom: 1px solid #ccc;
-      flex-grow: 1;
-    }
-    .chat-log .msg {
-      margin: 5px 0;
-    }
-    .chat-log .user {
-      font-weight: bold;
-      color: #003366;
-    }
-    .chat-input-area {
-      display: flex;
-      border-top: 1px solid #ccc;
-    }
-    #user-input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      font-size: 14px;
-    }
-    #send-btn {
-      background: var(--cor-acento);
-      border: none;
-      padding: 10px 20px;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    footer {
-      background: #333;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 40px;
-    }
-    /* Guia de erros */
-    .error-guide {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 40px;
-    }
-    .error-guide h3 {
-      color: var(--cor-primaria);
-      margin-top: 20px;
-      border-bottom: 2px solid var(--cor-acento);
-      padding-bottom: 5px;
-    }
-    .error-guide p {
-      margin-bottom: 15px;
-      line-height: 1.5;
-    }
-    /* Menu lateral fixo */
-    #side-menu {
-      position: fixed;
-      top: 100px;
-      left: 20px;
-      background: var(--cor-primaria);
-      color: white;
-      border-radius: 8px;
-      padding: 15px;
-      width: 180px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      font-size: 14px;
-      z-index: 1001;
-    }
-    #side-menu a {
-      color: var(--cor-acento);
-      text-decoration: none;
-      display: block;
-      margin-bottom: 12px;
-      font-weight: bold;
-    }
-    #side-menu a:hover {
       text-decoration: underline;
+      margin: 0 5px;
+      font-weight: bold;
     }
-    @media(max-width: 850px) {
-      #side-menu {
-        display: none;
-      }
-      main {
-        max-width: 100%;
-        padding: 20px 10px;
-      }
+    a.chat-suggestion:hover {
+      color: #005999;
     }
   </style>
 </head>
 <body>
-
-<header>
-  <h1><i class="fas fa-tools"></i> Suporte Técnico</h1>
-  <nav>
-    <a href="#servicos">Serviços</a>
-    <a href="#guia-erros">Guia de Erros</a>
-    <a href="#contato">Contato</a>
-  </nav>
-</header>
-
-<!-- Menu lateral -->
-<nav id="side-menu" aria-label="Menu de navegação lateral">
-  <strong>Menu Rápido</strong>
-  <a href="#servicos"><i class="fas fa-tools"></i> Serviços</a>
-  <a href="#guia-erros"><i class="fas fa-exclamation-triangle"></i> Guia de Erros</a>
-  <a href="#contato"><i class="fas fa-envelope"></i> Contato</a>
-</nav>
-
-<main>
-  <section id="servicos">
-    <h2>O que podemos ajudar?</h2>
-    <div class="card">
-      <i class="fas fa-desktop"></i>
-      <h3>Hardware</h3>
-      <p>Diagnóstico e conserto de computadores e periféricos.</p>
-    </div>
-    <div class="card">
-      <i class="fas fa-wifi"></i>
-      <h3>Redes</h3>
-      <p>Problemas de conexão, roteadores, e internet lenta.</p>
-    </div>
-    <div class="card">
-      <i class="fas fa-cogs"></i>
-      <h3>Software</h3>
-      <p>Instalação, remoção de vírus e erros de sistema.</p>
-    </div>
-  </section>
-
-  <section id="guia-erros" class="error-guide">
-    <h2>Guia Completo de Erros Comuns no Computador</h2>
-
-    <h3>1. Tela Azul da Morte (BSOD)</h3>
-    <p>Erro crítico do Windows que indica falha de hardware ou software. Geralmente acompanhado por um código que ajuda a identificar o problema. Solução: reinicie o PC, atualize drivers e verifique por conflitos de hardware.</p>
-
-    <h3>2. Computador Lento</h3>
-    <p>Pode ser causado por excesso de programas em execução, falta de memória, vírus ou disco cheio. Feche programas desnecessários, escaneie com antivírus e faça limpeza de disco.</p>
-
-    <h3>3. Erro de Conexão com a Internet</h3>
-    <p>Verifique se o cabo ou Wi-Fi está conectado, reinicie o roteador e o computador. Atualize os drivers da placa de rede e confira as configurações de IP.</p>
-
-    <h3>4. Computador Não Liga</h3>
-    <p>Checar fonte de energia, cabos, botões e hardware interno. Pode ser problema de fonte, placa-mãe ou memória. Se não conseguir resolver, procure um técnico.</p>
-
-    <h3>5. Tela Preta após Inicialização</h3>
-    <p>Problema na placa de vídeo, cabo desconectado ou falha no sistema operacional. Teste conexões, reinicie em modo de segurança ou use um disco de recuperação.</p>
-
-    <h3>6. Programas Fechando Sozinhos</h3>
-    <p>Podem estar corrompidos ou incompatíveis. Atualize ou reinstale o programa, verifique por vírus e atualize o sistema.</p>
-
-    <h3>7. Erros de Driver</h3>
-    <p>Hardware não funciona corretamente. Atualize o driver via Windows Update ou site do fabricante. Use o Gerenciador de Dispositivos para verificar problemas.</p>
-
-    <h3>8. Vírus e Malware</h3>
-    <p>Comportamentos estranhos, lentidão ou mensagens suspeitas indicam infecção. Utilize antivírus confiável e faça escaneamentos regulares.</p>
-
-    <h3>9. Problemas com Impressora</h3>
-    <p>Cheque se está ligada, conectada corretamente e com papel/toner. Atualize drivers e verifique fila de impressão.</p>
-
-    <h3>10. Som Não Funciona</h3>
-    <p>Verifique volume, conexões, drivers de áudio e configurações do sistema. Teste com fones de ouvido ou outro dispositivo.</p>
-
-    <h3>11. Backup e Recuperação</h3>
-    <p>Faça backup regularmente para evitar perda de dados. Utilize ferramentas nativas do sistema ou serviços em nuvem.</p>
-  </section>
-
-  <section id="contato">
-    <h2>Contato</h2>
-    <form action="https://formsubmit.co/cjogo4990@gmail.com" method="POST">
-      <input type="text" name="nome" placeholder="Seu nome" required />
-      <input type="email" name="email" placeholder="Seu email" required />
-      <textarea name="mensagem" placeholder="Escreva sua mensagem aqui..." required></textarea>
-      <input type="hidden" name="_next" value="https://seusite.com/obrigado.html" />
-      <input type="hidden" name="_captcha" value="false" />
-      <button type="submit">Enviar</button>
+  <div id="chat">
+    <div id="chatLog"></div>
+    <form id="inputArea">
+      <input type="text" id="inputMsg" placeholder="Digite sua mensagem..." autocomplete="off" />
+      <button type="submit" id="sendBtn">Enviar</button>
     </form>
-  </section>
-</main>
-
-<footer>
-  <p>&copy; 2025 Suporte Técnico Moderno</p>
-</footer>
-
-<div class="chatbox" id="chatbox">
-  <div class="chatbox-header">
-    Assistente Técnico
-    <button id="clear-chat" title="Limpar chat"><i class="fas fa-trash-alt"></i></button>
   </div>
-  <div id="chat-log" class="chat-log"></div>
-  <div class="chat-input-area">
-    <input type="text" id="user-input" placeholder="Digite sua dúvida..." autocomplete="off" />
-    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
-  </div>
-</div>
 
-<script>
-  const sendBtn = document.getElementById("send-btn");
-  const userInput = document.getElementById("user-input");
-  const chatLog = document.getElementById("chat-log");
-  const clearBtn = document.getElementById("clear-chat");
+  <script>
+    const chatLog = document.getElementById('chatLog');
+    const inputMsg = document.getElementById('inputMsg');
+    const inputArea = document.getElementById('inputArea');
 
-  window.addEventListener('DOMContentLoaded', () => {
-    addBotMessage("👋 Olá! Seja bem-vindo ao Suporte Técnico Moderno. Em que posso ajudar você hoje?");
-  });
+    // Variáveis para memória simples do contexto
+    let contexto = null;  // guarda o tópico atual, ex: 'internet', 'lentidao', etc
+    let esperandoEscolha = false;  // se o bot está esperando que o usuário escolha uma opção clicável
 
-  function addBotMessage(msg) {
-    const botMsg = document.createElement("div");
-    botMsg.classList.add("msg");
-    botMsg.innerHTML = `<span class='user'>Assistente (${getTime()}):</span> ${msg}`;
-    chatLog.appendChild(botMsg);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
+    // Mensagens ofensivas para filtro
+    const mensagensOfensivas = ['burro', 'idiota', 'estúpido', 'inútil', 'imbecil', 'otário'];
 
-  function addUserMessage(msg) {
-    const userMsg = document.createElement("div");
-    userMsg.classList.add("msg");
-    userMsg.innerHTML = `<span class='user'>Você (${getTime()}):</span> ${msg}`;
-    chatLog.appendChild(userMsg);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
+    function contemPalavraOfensiva(texto) {
+      texto = texto.toLowerCase();
+      return mensagensOfensivas.some(palavra => texto.includes(palavra));
+    }
 
-  function getTime() {
-    const now = new Date();
-    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  }
+    // Função para inserir mensagens no chat
+    function adicionarMensagem(texto, remetente='user', html=false) {
+      const msgElem = document.createElement('div');
+      msgElem.classList.add('msg');
+      msgElem.classList.add(remetente);
+      if(html) {
+        msgElem.innerHTML = texto;
+      } else {
+        msgElem.textContent = texto;
+      }
+      chatLog.appendChild(msgElem);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
 
-  function getBotResponse(msg) {
-    const texto = msg.toLowerCase();
-    const palavrasOfensivas = ["viado", "viadu", "viado!", "va tomar no cu"];
+    // Função que cria links clicáveis para opções do usuário
+    function criarSugestoes(lista) {
+      return lista.map(item => `<a href="#" class="chat-suggestion" onclick="responderSugestao(event, '${item}')">${item}</a>`).join(' | ');
+    }
 
-    for (let palavra of palavrasOfensivas) {
-      if (texto.includes(palavra)) {
-        return "⚠️ Por favor, evite linguagem ofensiva. Nosso assistente está aqui para ajudar com respeito.";
+    // Função para responder à escolha do usuário clicando na sugestão
+    function responderSugestao(event, escolha) {
+      event.preventDefault();
+      if(esperandoEscolha) {
+        adicionarMensagem(escolha, 'user');
+        processarMensagem(escolha);
+        esperandoEscolha = false;
       }
     }
 
-    if (texto.includes("internet") || texto.includes("wifi")) {
-      return "📶 Verifique seu modem/roteador e reinicie se necessário. Veja nosso <a href='#guia-erros'>guia de solução Wi-Fi</a>.";
-    } else if (texto.includes("lento") || texto.includes("trava")) {
-      return "🐢 Isso pode ser excesso de programas. Feche apps e reinicie. Se continuar, verifique vírus.";
-    } else if (texto.includes("erro") || texto.includes("sistema")) {
-      return "⚠️ Tente reiniciar em Modo de Segurança ou restaurar o sistema. Veja nosso <a href='#guia-erros'>guia de erros</a> para mais detalhes.";
-    } else if (texto.includes("som") || texto.includes("tela") || texto.includes("monitor")) {
-      return "🔊🔧 Verifique conexões e drivers. Se precisar, posso orientar como atualizar os drivers.";
-    } else if (texto.includes("impressora") || texto.includes("imprimir")) {
-      return "🖨️ Cheque cabos e drivers. Veja se há papel/toner. Deseja ajuda para reinstalar?";
-    } else if (texto.includes("backup") || texto.includes("salvar")) {
-      return "💾 Você pode usar HD externo, Google Drive ou OneDrive. Quer um guia simples para backup?";
-    } else if (texto.includes("antivirus") || texto.includes("segurança")) {
-      return "🛡️ Use antivírus atualizado e escaneie semanalmente. Posso recomendar opções gratuitas.";
-    } else if (texto.includes("whatsapp") || texto.includes("contato")) {
-      return "📱 Fale conosco direto pelo WhatsApp: <a href='https://wa.me/5571999999999' target='_blank'>Clique aqui</a>";
-    } else {
-      return "🤖 Obrigado pela mensagem! Um técnico entrará em contato em breve. Posso ajudar com algo mais?";
+    // Função que processa a mensagem do usuário e retorna a resposta do bot
+    function processarMensagem(textoUsuario) {
+      textoUsuario = textoUsuario.toLowerCase();
+
+      if(contemPalavraOfensiva(textoUsuario)) {
+        contexto = null;
+        esperandoEscolha = false;
+        adicionarMensagem("Por favor, mantenha o respeito. Estou aqui para ajudar.", 'bot');
+        return;
+      }
+
+      // Saudações
+      if(/^(oi|olá|ola|bom dia|boa tarde|boa noite|e aí|salve)/.test(textoUsuario)) {
+        contexto = null;
+        esperandoEscolha = false;
+        adicionarMensagem("Olá! Sou seu assistente virtual. Em que posso ajudar hoje? Você pode perguntar sobre problemas de internet, lentidão, erros, hardware, software, vírus, impressora e mais.", 'bot');
+        return;
+      }
+
+      // Despedidas
+      if(/^(tchau|adeus|valeu|obrigado|brigado|até)/.test(textoUsuario)) {
+        contexto = null;
+        esperandoEscolha = false;
+        adicionarMensagem("Obrigado por usar nosso suporte. Se precisar, volte sempre!", 'bot');
+        return;
+      }
+
+      // Identificação de tópicos e resposta
+      if(textoUsuario.includes('internet') || textoUsuario.includes('rede') || textoUsuario.includes('wi-fi')) {
+        contexto = 'internet';
+        esperandoEscolha = true;
+        adicionarMensagem("Problemas com internet podem ter várias causas. Você quer ajuda com alguma dessas opções? " +
+          criarSugestoes(['Reiniciar roteador', 'Configurar Wi-Fi', 'Verificar cabo', 'Outra coisa']), 'bot', true);
+        return;
+      }
+
+      if(textoUsuario.includes('computador lento') || textoUsuario.includes('lentidão')) {
+        contexto = 'lentidao';
+        esperandoEscolha = true;
+        adicionarMensagem("Computador lento pode ser causado por vários fatores. Deseja dicas para: " +
+          criarSugestoes(['Limpar arquivos temporários', 'Verificar vírus', 'Desinstalar programas', 'Outra coisa']), 'bot', true);
+        return;
+      }
+
+      if(textoUsuario.includes('erro') || textoUsuario.includes('problema')) {
+        contexto = 'erro';
+        esperandoEscolha = true;
+        adicionarMensagem("Por favor, escolha uma categoria para o erro: " +
+          criarSugestoes(['Tela azul', 'Tela preta', 'Programa fechando', 'Outro erro']), 'bot', true);
+        return;
+      }
+
+      if(textoUsuario.includes('hardware') || textoUsuario.includes('peça') || textoUsuario.includes('placa') || textoUsuario.includes('fonte')) {
+        contexto = 'hardware';
+        esperandoEscolha = true;
+        adicionarMensagem("Problemas de hardware podem variar. Deseja ajuda com: " +
+          criarSugestoes(['Fonte', 'Placa-mãe', 'Memória RAM', 'Outro']), 'bot', true);
+        return;
+      }
+
+      if(textoUsuario.includes('software') || textoUsuario.includes('programa') || textoUsuario.includes('app')) {
+        contexto = 'software';
+        esperandoEscolha = true;
+        adicionarMensagem("Sobre software, você quer ajuda com: " +
+          criarSugestoes(['Instalação', 'Remoção de vírus', 'Atualização', 'Outro']), 'bot', true);
+        return;
+      }
+
+      if(textoUsuario.includes('vírus') || textoUsuario.includes('malware') || textoUsuario.includes('antivírus')) {
+        contexto = 'virus';
+        esperandoEscolha = true;
+        adicionarMensagem("Vírus são sérios! Deseja ajuda para: " +
+          criarSugestoes(['Escanear sistema', 'Remover vírus', 'Prevenção', 'Outro']), 'bot', true);
+        return;
+      }
+
+      if(textoUsuario.includes('impressora')) {
+        contexto = 'impressora';
+        esperandoEscolha = true;
+        adicionarMensagem("Problemas com impressora? Posso ajudar com: " +
+          criarSugestoes(['Conectar', 'Driver', 'Fila de impressão', 'Outro']), 'bot', true);
+        return;
+      }
+
+      // Se está esperando escolha, mas a mensagem não bate, lembra
+      if(esperandoEscolha) {
+        adicionarMensagem("Por favor, escolha uma das opções acima clicando nos links ou digite sua dúvida específica.", 'bot');
+        return;
+      }
+
+      // Respostas baseadas em contexto e escolha
+
+      switch(contexto) {
+        case 'internet':
+          if(textoUsuario.includes('reiniciar roteador')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Para reiniciar o roteador, desligue-o da tomada, espere 30 segundos e ligue novamente. Isso resolve muitos problemas de conexão.", 'bot');
+          } else if(textoUsuario.includes('configurar wi-fi')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Para configurar o Wi-Fi, acesse as configurações do seu roteador via navegador e siga o manual do fabricante. Posso ajudar a encontrar o manual se quiser.", 'bot');
+          } else if(textoUsuario.includes('verificar cabo')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Verifique se o cabo de rede está conectado firmemente tanto no computador quanto no roteador/modem. Às vezes, um cabo danificado pode causar problemas.", 'bot');
+          } else if(textoUsuario.includes('outra')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Descreva seu problema com a internet que tentarei ajudar.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        case 'lentidao':
+          if(textoUsuario.includes('limpar')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Para limpar arquivos temporários, utilize a ferramenta 'Limpeza de Disco' no Windows ou aplicativos específicos para isso.", 'bot');
+          } else if(textoUsuario.includes('vírus')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Faça um escaneamento completo com um antivírus atualizado para eliminar possíveis ameaças.", 'bot');
+          } else if(textoUsuario.includes('desinstalar')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Desinstale programas que você não utiliza para liberar recursos e melhorar a performance.", 'bot');
+          } else if(textoUsuario.includes('outra')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Por favor, descreva o problema para que eu possa ajudar melhor.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        case 'erro':
+          if(textoUsuario.includes('tela azul')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("A Tela Azul da Morte indica falha crítica. Tente anotar o código de erro e reinicie o computador. Atualizar drivers pode ajudar.", 'bot');
+          } else if(textoUsuario.includes('tela preta')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("A Tela Preta pode indicar problemas de hardware ou software. Verifique as conexões e atualize seus drivers.", 'bot');
+          } else if(textoUsuario.includes('programa fechando')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Se um programa está fechando sozinho, tente reinstalá-lo ou verificar atualizações.", 'bot');
+          } else if(textoUsuario.includes('outro')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Descreva seu erro específico para que eu possa ajudar.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        case 'hardware':
+          if(textoUsuario.includes('fonte')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Problemas na fonte podem causar desligamentos inesperados. Verifique a voltagem e cabos de energia.", 'bot');
+          } else if(textoUsuario.includes('placa-mãe')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Problemas na placa-mãe podem ser complexos. Verifique se há sinais visíveis de dano ou leve para assistência técnica.", 'bot');
+          } else if(textoUsuario.includes('memória ram') || textoUsuario.includes('ram')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Memória RAM com defeito pode causar erros e lentidão. Teste com ferramentas como MemTest86.", 'bot');
+          } else if(textoUsuario.includes('outro')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Descreva seu problema de hardware para que eu possa ajudar.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        case 'software':
+          if(textoUsuario.includes('instalação')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Para instalar um software, baixe o arquivo oficial e siga as instruções do instalador.", 'bot');
+          } else if(textoUsuario.includes('remoção de vírus') || textoUsuario.includes('vírus')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Use um antivírus confiável para remover vírus e mantenha seu sistema atualizado.", 'bot');
+          } else if(textoUsuario.includes('atualização')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Atualize seus programas regularmente para garantir segurança e desempenho.", 'bot');
+          } else if(textoUsuario.includes('outro')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Descreva sua dúvida sobre software para que eu possa ajudar.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        case 'virus':
+          if(textoUsuario.includes('escanear')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Para escanear o sistema, abra seu antivírus e faça uma varredura completa.", 'bot');
+          } else if(textoUsuario.includes('remover')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Se o antivírus identificar ameaças, siga as instruções para remover os vírus.", 'bot');
+          } else if(textoUsuario.includes('prevenção')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Mantenha seu antivírus atualizado e evite abrir arquivos suspeitos para prevenir vírus.", 'bot');
+          } else if(textoUsuario.includes('outro')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Descreva seu problema relacionado a vírus para que eu possa ajudar.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        case 'impressora':
+          if(textoUsuario.includes('conectar')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Para conectar a impressora, verifique o cabo USB ou a conexão Wi-Fi e instale os drivers necessários.", 'bot');
+          } else if(textoUsuario.includes('driver')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Baixe e instale o driver mais recente para sua impressora no site do fabricante.", 'bot');
+          } else if(textoUsuario.includes('fila de impressão')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Limpe a fila de impressão no painel de controle para resolver travamentos.", 'bot');
+          } else if(textoUsuario.includes('outro')) {
+            contexto = null; esperandoEscolha = false;
+            adicionarMensagem("Descreva seu problema com a impressora para que eu possa ajudar.", 'bot');
+          } else {
+            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
+          }
+          return;
+
+        default:
+          adicionarMensagem("Não entendi sua mensagem. Pode reformular ou escolher um dos tópicos principais? Ex: internet, lentidão, erro, hardware, software, vírus, impressora.", 'bot');
+      }
     }
-  }
 
-  function sendMessage() {
-    const msg = userInput.value.trim();
-    if (msg === "") return;
+    // Evento para enviar mensagem
+    inputArea.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const texto = inputMsg.value.trim();
+      if(!texto) return;
+      adicionarMensagem(texto, 'user');
+      processarMensagem(texto);
+      inputMsg.value = '';
+      inputMsg.focus();
+    });
 
-    addUserMessage(msg);
-
-    const botReply = getBotResponse(msg);
-    addBotMessage(botReply);
-
-    userInput.value = "";
-    userInput.focus();
-  }
-
-  sendBtn.addEventListener("click", sendMessage);
-  userInput.addEventListener("keydown", e => {
-    if (e.key === "Enter") sendMessage();
-  });
-
-  clearBtn.addEventListener("click", () => {
-    chatLog.innerHTML = "";
-  });
-</script>
-
+    // Mensagem inicial do bot
+    adicionarMensagem("Olá! Sou seu assistente virtual. Como posso ajudar você hoje? Você pode dizer 'Oi' para começar.", 'bot');
+  </script>
 </body>
 </html>
