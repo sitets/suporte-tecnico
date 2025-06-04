@@ -7,7 +7,6 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-
   <script src="https://kit.fontawesome.com/a076d05399.js?v=1.0.0" crossorigin="anonymous"></script>
 
   <style>
@@ -84,7 +83,7 @@
       background: #00509e;
     }
 
-    /* Chatbox sempre visível */
+    /* Chatbox */
     .chatbox {
       position: fixed;
       bottom: 20px;
@@ -114,9 +113,8 @@
       background: transparent;
       border: none;
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
-      display: none; /* Esconder botão fechar */
     }
     .chat-log {
       height: 200px;
@@ -151,6 +149,7 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     .fade-in {
       animation: fadeIn 1s ease-in;
     }
@@ -158,6 +157,7 @@
       from {opacity: 0;}
       to {opacity: 1;}
     }
+
     footer {
       background: #333;
       color: white;
@@ -216,15 +216,16 @@
   <p>&copy; 2025 Suporte Técnico Moderno</p>
 </footer>
 
-<!-- Chatbox sempre visível -->
+<!-- Chatbox com melhorias -->
 <div class="chatbox" id="chatbox" role="region" aria-label="Assistente técnico de suporte">
   <div class="chatbox-header">
     Assistente Técnico
+    <button id="clear-chat" title="Limpar chat"><i class="fas fa-trash-alt"></i></button>
   </div>
   <div id="chat-log" class="chat-log" aria-live="polite" aria-relevant="additions"></div>
   <div class="chat-input-area">
-    <input type="text" id="user-input" placeholder="Digite sua dúvida..." autocomplete="off" aria-label="Digite sua dúvida" />
-    <button id="send-btn" aria-label="Enviar mensagem"><i class="fas fa-paper-plane"></i></button>
+    <input type="text" id="user-input" placeholder="Digite sua dúvida..." autocomplete="off" />
+    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
   </div>
 </div>
 
@@ -232,16 +233,16 @@
   const sendBtn = document.getElementById("send-btn");
   const userInput = document.getElementById("user-input");
   const chatLog = document.getElementById("chat-log");
+  const clearBtn = document.getElementById("clear-chat");
 
-  // Mensagem de boas-vindas inicial
   window.addEventListener('DOMContentLoaded', () => {
-    addBotMessage("Olá! Seja bem-vindo ao Suporte Técnico Moderno. Estou aqui para ajudar com qualquer dúvida que você tenha. Como posso ajudar você hoje? 😊");
+    addBotMessage("👋 Olá! Seja bem-vindo ao Suporte Técnico Moderno. Em que posso ajudar você hoje?");
   });
 
   function addBotMessage(msg) {
     const botMsg = document.createElement("div");
     botMsg.classList.add("msg");
-    botMsg.innerHTML = `<span class='user'>Assistente:</span> ${msg}`;
+    botMsg.innerHTML = `<span class='user'>Assistente (${getTime()}):</span> ${msg}`;
     chatLog.appendChild(botMsg);
     chatLog.scrollTop = chatLog.scrollHeight;
   }
@@ -249,28 +250,51 @@
   function addUserMessage(msg) {
     const userMsg = document.createElement("div");
     userMsg.classList.add("msg");
-    userMsg.innerHTML = `<span class='user'>Você:</span> ${msg}`;
+    userMsg.innerHTML = `<span class='user'>Você (${getTime()}):</span> ${msg}`;
     chatLog.appendChild(userMsg);
     chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function getTime() {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function showTyping() {
+    const typing = document.createElement("div");
+    typing.classList.add("msg");
+    typing.id = "typing";
+    typing.innerHTML = `<span class='user'>Assistente está digitando...</span>`;
+    chatLog.appendChild(typing);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function hideTyping() {
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
   }
 
   function getBotResponse(msg) {
     const texto = msg.toLowerCase();
 
-    if (texto.includes("internet") || texto.includes("wifi") || texto.includes("conexão")) {
-      return "Entendo que problemas de conexão podem ser frustrantes. Por favor, verifique se o modem está ligado corretamente. Recomendo reiniciar seu roteador e tentar novamente. Caso o problema persista, estamos à disposição para ajudar.";
-    } else if (texto.includes("lento") || texto.includes("desempenho") || texto.includes("trava")) {
-      return "Para melhorar o desempenho, sugiro fechar os programas que não estão em uso e reiniciar o computador. Se continuar com dificuldades, informe-me para que possamos encontrar uma solução juntos.";
-    } else if (texto.includes("erro") || texto.includes("sistema") || texto.includes("windows")) {
-      return "Você pode tentar iniciar o sistema no modo de segurança ou realizar uma restauração do sistema para resolver erros comuns. Se precisar, posso ajudar com o passo a passo.";
-    } else if (texto.includes("som") || texto.includes("tela") || texto.includes("hardware")) {
-      return "Por favor, verifique se todos os cabos estão conectados corretamente e se os drivers estão atualizados. Caso o problema continue, recomendamos procurar assistência técnica especializada.";
-    } else if (texto.includes("instalar") || texto.includes("programa") || texto.includes("aplicativo")) {
-      return "Para instalação de programas, recomendo baixar sempre dos sites oficiais. Posso orientar você durante o processo, caso deseje.";
+    if (texto.includes("internet") || texto.includes("wifi")) {
+      return "📶 Verifique seu modem/roteador e reinicie se necessário. Veja nosso <a href='#'>guia de solução Wi-Fi</a>.";
+    } else if (texto.includes("lento") || texto.includes("trava")) {
+      return "🐢 Isso pode ser excesso de programas. Feche apps e reinicie. Se continuar, verifique vírus.";
+    } else if (texto.includes("erro") || texto.includes("sistema")) {
+      return "⚠️ Tente reiniciar em Modo de Segurança ou restaurar o sistema. Deseja o passo a passo?";
+    } else if (texto.includes("som") || texto.includes("tela") || texto.includes("monitor")) {
+      return "🔊🔧 Verifique conexões e drivers. Se precisar, posso orientar como atualizar os drivers.";
+    } else if (texto.includes("impressora") || texto.includes("imprimir")) {
+      return "🖨️ Cheque cabos e drivers. Veja se há papel/toner. Deseja ajuda para reinstalar?";
+    } else if (texto.includes("backup") || texto.includes("salvar")) {
+      return "💾 Você pode usar HD externo, Google Drive ou OneDrive. Quer um guia simples para backup?";
+    } else if (texto.includes("antivirus") || texto.includes("segurança")) {
+      return "🛡️ Use antivírus atualizado e escaneie semanalmente. Posso recomendar opções gratuitas.";
     } else if (texto.includes("whatsapp") || texto.includes("contato")) {
-      return "Fique à vontade para entrar em contato conosco pelo WhatsApp: +55 71 99999-9999. Estamos prontos para ajudar você com o que for necessário!";
+      return "📱 Fale conosco direto pelo WhatsApp: <a href='https://wa.me/5571999999999' target='_blank'>Clique aqui</a>";
     } else {
-      return "Agradeço sua mensagem! Um de nossos técnicos reais irá entrar em contato em breve para oferecer assistência personalizada. Enquanto isso, estou aqui para ajudar no que puder.";
+      return "🤖 Obrigado pela mensagem! Um técnico entrará em contato em breve. Posso ajudar com algo mais?";
     }
   }
 
@@ -278,12 +302,12 @@
     const msg = userInput.value.trim();
     if (msg !== "") {
       addUserMessage(msg);
-
+      showTyping();
       setTimeout(() => {
+        hideTyping();
         const response = getBotResponse(msg);
         addBotMessage(response);
-      }, 800);
-
+      }, 900);
       userInput.value = "";
     }
   }
@@ -295,6 +319,10 @@
       sendMessage();
       e.preventDefault();
     }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    chatLog.innerHTML = "";
   });
 </script>
 
