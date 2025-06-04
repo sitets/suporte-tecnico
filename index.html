@@ -4,7 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Suporte Técnico Moderno</title>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Meta tags para evitar cache -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- Font Awesome com versão para evitar cache -->
+  <script src="https://kit.fontawesome.com/a076d05399.js?v=1.0.0" crossorigin="anonymous"></script>
+
   <style>
     :root {
       --cor-primaria: #003366;
@@ -17,9 +24,6 @@
       margin: 0;
       background: #f0f2f5;
       color: #333;
-      position: relative;
-      min-height: 100vh;
-      padding-bottom: 80px; /* espaço para o robo box */
     }
     header {
       background-color: var(--cor-primaria);
@@ -132,71 +136,6 @@
       padding: 15px;
       margin-top: 40px;
     }
-    /* Robo Box */
-    #robo-box {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 280px;
-      background: var(--cor-primaria);
-      color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      user-select: none;
-      transition: height 0.3s ease;
-    }
-    #robo-header {
-      background: var(--cor-acento);
-      padding: 12px 15px;
-      font-weight: bold;
-      font-size: 1.1em;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #robo-header i {
-      cursor: pointer;
-    }
-    #robo-messages {
-      padding: 10px 15px;
-      flex: 1;
-      font-size: 0.95em;
-      line-height: 1.3em;
-    }
-    #robo-whatsapp {
-      background: #25d366;
-      color: white;
-      text-align: center;
-      padding: 12px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.3s;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
-    }
-    #robo-whatsapp:hover {
-      background: #128c4a;
-    }
-    #robo-box.collapsed {
-      height: 40px;
-      width: 120px;
-      flex-direction: row;
-      align-items: center;
-      padding: 0 15px;
-      overflow: visible;
-    }
-    #robo-box.collapsed #robo-messages,
-    #robo-box.collapsed #robo-whatsapp {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -263,20 +202,6 @@
   <p>&copy; 2025 Suporte Técnico Moderno</p>
 </footer>
 
-<!-- Robo Box -->
-<div id="robo-box" title="Assistente Virtual">
-  <div id="robo-header">
-    <span><i class="fas fa-robot"></i> Assistente</span>
-    <i id="robo-toggle" class="fas fa-chevron-down"></i>
-  </div>
-  <div id="robo-messages">
-    <p>Olá! Precisa de ajuda?</p>
-    <p>👨‍💻 Hardware, Redes, Software.</p>
-    <p>📱 Clique no botão abaixo para falar no WhatsApp.</p>
-  </div>
-  <button id="robo-whatsapp">WhatsApp: (71) 99999-9999</button>
-</div>
-
 <script>
   const sendBtn = document.getElementById("send-btn");
   const userInput = document.getElementById("user-input");
@@ -324,38 +249,6 @@
     if (e.key === "Enter") {
       sendBtn.click();
       e.preventDefault();
-    }
-  });
-
-  // Robo box toggle e link whatsapp
-  const roboBox = document.getElementById('robo-box');
-  const roboToggle = document.getElementById('robo-toggle');
-  const roboWhatsapp = document.getElementById('robo-whatsapp');
-
-  roboToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    roboBox.classList.toggle('collapsed');
-    if (roboBox.classList.contains('collapsed')) {
-      roboToggle.classList.remove('fa-chevron-down');
-      roboToggle.classList.add('fa-chevron-up');
-    } else {
-      roboToggle.classList.remove('fa-chevron-up');
-      roboToggle.classList.add('fa-chevron-down');
-    }
-  });
-
-  roboWhatsapp.addEventListener('click', () => {
-    const phone = '5571999999999'; // Código do Brasil + 71 + número
-    const url = `https://wa.me/${phone}`;
-    window.open(url, '_blank');
-  });
-
-  // Fecha o robo box ao clicar fora (quando aberto)
-  document.addEventListener('click', (e) => {
-    if (!roboBox.contains(e.target) && !roboBox.classList.contains('collapsed')) {
-      roboBox.classList.add('collapsed');
-      roboToggle.classList.remove('fa-chevron-down');
-      roboToggle.classList.add('fa-chevron-up');
     }
   });
 </script>
