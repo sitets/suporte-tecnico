@@ -85,12 +85,40 @@
     form button:hover {
       background: #00509e;
     }
+    /* Chatbox padrão está oculto */
     .chatbox {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 320px;
+      max-width: 90vw;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       overflow: hidden;
-      margin-top: 20px;
+      display: none;
+      flex-direction: column;
+      z-index: 9999;
+      font-size: 14px;
+    }
+    .chatbox.active {
+      display: flex;
+    }
+    .chatbox-header {
+      background: var(--cor-primaria);
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chatbox-header button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
     }
     .chat-log {
       height: 200px;
@@ -98,6 +126,7 @@
       padding: 10px;
       background: #e6f0fa;
       border-bottom: 1px solid #ccc;
+      flex-grow: 1;
     }
     .chat-log .msg {
       margin: 5px 0;
@@ -114,6 +143,7 @@
       flex: 1;
       padding: 10px;
       border: none;
+      font-size: 14px;
     }
     #send-btn {
       background: var(--cor-acento);
@@ -121,6 +151,7 @@
       padding: 10px 20px;
       color: white;
       cursor: pointer;
+      font-size: 16px;
     }
     .fade-in {
       animation: fadeIn 1s ease-in;
@@ -136,6 +167,30 @@
       padding: 15px;
       margin-top: 40px;
     }
+
+    /* Botão flutuante do assistente */
+    #chat-toggle-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--cor-acento);
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      color: white;
+      font-size: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: background 0.3s;
+    }
+    #chat-toggle-btn:hover {
+      background: #0099ff;
+    }
   </style>
 </head>
 <body>
@@ -144,7 +199,6 @@
   <h1><i class="fas fa-tools"></i> Suporte Técnico</h1>
   <nav>
     <a href="#servicos">Serviços</a>
-    <a href="#chat">Chat</a>
     <a href="#contato">Contato</a>
   </nav>
 </header>
@@ -170,17 +224,6 @@
     </div>
   </section>
 
-  <section id="chat" class="fade-in">
-    <h2>Fale com nosso assistente</h2>
-    <div class="chatbox">
-      <div id="chat-log" class="chat-log"></div>
-      <div class="chat-input-area">
-        <input type="text" id="user-input" placeholder="Digite sua dúvida..." />
-        <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
-      </div>
-    </div>
-  </section>
-
   <section id="contato" class="fade-in">
     <h2>Contato</h2>
     <!-- FORMULÁRIO INTEGRADO COM FORMSUBMIT -->
@@ -202,30 +245,55 @@
   <p>&copy; 2025 Suporte Técnico Moderno</p>
 </footer>
 
+<!-- Botão flutuante para abrir/fechar chat -->
+<button id="chat-toggle-btn" aria-label="Abrir chat">
+  <i class="fas fa-robot"></i>
+</button>
+
+<!-- Chatbox oculto inicialmente -->
+<div class="chatbox" id="chatbox">
+  <div class="chatbox-header">
+    Assistente Técnico
+    <button id="chat-close-btn" aria-label="Fechar chat">&times;</button>
+  </div>
+  <div id="chat-log" class="chat-log"></div>
+  <div class="chat-input-area">
+    <input type="text" id="user-input" placeholder="Digite sua dúvida..." autocomplete="off" />
+    <button id="send-btn" aria-label="Enviar mensagem"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
 <script>
   const sendBtn = document.getElementById("send-btn");
   const userInput = document.getElementById("user-input");
   const chatLog = document.getElementById("chat-log");
+  const chatbox = document.getElementById("chatbox");
+  const chatToggleBtn = document.getElementById("chat-toggle-btn");
+  const chatCloseBtn = document.getElementById("chat-close-btn");
 
+  // Função para respostas do bot
   function getBotResponse(msg) {
     const texto = msg.toLowerCase();
 
     if (texto.includes("internet") || texto.includes("wifi") || texto.includes("conexão")) {
-      return "Verifique se o modem está ligado. Reinicie seu roteador e tente novamente.";
+      return "Verifique se o modem está ligado. Reinicie seu roteador e tente novamente. 📶";
     } else if (texto.includes("lento") || texto.includes("desempenho") || texto.includes("trava")) {
-      return "Tente fechar programas em segundo plano e reiniciar o sistema.";
+      return "Tente fechar programas em segundo plano e reiniciar o sistema. ⚙️";
     } else if (texto.includes("erro") || texto.includes("sistema") || texto.includes("windows")) {
-      return "Você pode tentar iniciar o modo de segurança ou restaurar o sistema.";
+      return "Você pode tentar iniciar o modo de segurança ou restaurar o sistema. 🛠️";
     } else if (texto.includes("som") || texto.includes("tela") || texto.includes("hardware")) {
-      return "Verifique os cabos e drivers. Se persistir, procure assistência técnica.";
+      return "Verifique os cabos e drivers. Se persistir, procure assistência técnica. 🖥️";
     } else if (texto.includes("instalar") || texto.includes("programa") || texto.includes("aplicativo")) {
-      return "Você pode baixar o instalador pelo site oficial e seguir os passos indicados.";
+      return "Você pode baixar o instalador pelo site oficial e seguir os passos indicados. 💾";
+    } else if (texto.includes("whatsapp") || texto.includes("contato")) {
+      return "Para falar com um técnico pelo WhatsApp, envie mensagem para: +55 71 99999-9999 📱";
     } else {
-      return "Obrigado pela pergunta! Em breve um técnico real entrará em contato para te ajudar.";
+      return "Obrigado pela pergunta! Em breve um técnico real entrará em contato para te ajudar. 😊";
     }
   }
 
-  sendBtn.addEventListener("click", () => {
+  // Enviar mensagem
+  function sendMessage() {
     const msg = userInput.value.trim();
     if (msg !== "") {
       const userMsg = document.createElement("div");
@@ -243,13 +311,25 @@
 
       userInput.value = "";
     }
-  });
+  }
+
+  sendBtn.addEventListener("click", sendMessage);
 
   userInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
-      sendBtn.click();
+      sendMessage();
       e.preventDefault();
     }
+  });
+
+  // Abrir/fechar chat com botão flutuante
+  chatToggleBtn.addEventListener("click", () => {
+    chatbox.classList.toggle("active");
+  });
+
+  // Fechar chat com botão X
+  chatCloseBtn.addEventListener("click", () => {
+    chatbox.classList.remove("active");
   });
 </script>
 
