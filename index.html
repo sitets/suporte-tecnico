@@ -3,380 +3,609 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chatbox Suporte</title>
+  <title>Suporte Técnico Moderno</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/833/833524.png" type="image/png" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
+    :root {
+      --cor-primaria: #003366;
+      --cor-secundaria: #ffffff;
+      --cor-acento: #00bfff;
+      --cor-bot-bg: #e6f0fa;
+      --cor-user-bg: #cce5ff;
+      --cor-bot-text: #003366;
+      --cor-user-text: #004085;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    * { box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column; height: 100vh;
+      font-family: var(--font-family);
+      margin: 0;
+      background: #f0f2f5;
+      color: #333;
+      scroll-behavior: smooth;
     }
-    #chat {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+    header {
+      background-color: var(--cor-primaria);
+      color: var(--cor-secundaria);
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-    #chatLog {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      border-bottom: 1px solid #ccc;
+    header nav a {
+      color: var(--cor-secundaria);
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
     }
-    .msg {
-      margin: 8px 0;
-      max-width: 80%;
-      padding: 8px 12px;
-      border-radius: 15px;
-      line-height: 1.4;
-    }
-    .user {
-      background: #0084ff;
-      color: white;
-      align-self: flex-end;
-      border-bottom-right-radius: 0;
-    }
-    .bot {
-      background: #e5e5ea;
-      color: #000;
-      align-self: flex-start;
-      border-bottom-left-radius: 0;
-    }
-    #inputArea {
-      display: flex;
-      padding: 10px;
-      background: #fafafa;
-    }
-    #inputMsg {
-      flex: 1;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
+    header nav a:hover,
+    header nav a:focus {
+      color: var(--cor-acento);
       outline: none;
     }
-    #sendBtn {
-      padding: 10px 20px;
-      margin-left: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 20px;
-      background: #0084ff;
+    main {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      color: var(--cor-primaria);
+      margin-top: 40px;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: transform 0.3s;
+    }
+    .card:hover, .card:focus-within {
+      transform: scale(1.03);
+      outline: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .card i {
+      font-size: 2em;
+      color: var(--cor-acento);
+      margin-bottom: 10px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    form input, form textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    form input:focus, form textarea:focus {
+      border-color: var(--cor-acento);
+      outline: none;
+    }
+    form button {
+      background: var(--cor-primaria);
       color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      font-size: 1rem;
     }
-    #sendBtn:hover {
-      background: #006fcc;
+    form button:hover, form button:focus {
+      background: #00509e;
+      outline: none;
     }
-    a.chat-suggestion {
-      color: #0084ff;
+    #form-feedback {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+      display: none;
+      text-align: center;
+    }
+    /* Chatbox aprimorado */
+    .chatbox-wrapper {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      font-size: 14px;
+      font-family: var(--font-family);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    #chatbox-toggle-btn {
+      background: var(--cor-acento);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      color: white;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    #chatbox-toggle-btn:hover, #chatbox-toggle-btn:focus {
+      background: #0099ff;
+      outline: none;
+    }
+    .chatbox {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.25);
+      width: 350px;
+      max-height: 480px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      margin-top: 10px;
+      user-select: text;
+      font-size: 15px;
+      color: #222;
+      display: none; /* fechado inicialmente */
+    }
+    .chatbox.open {
+      display: flex;
+    }
+    .chatbox-header {
+      background: var(--cor-primaria);
+      color: white;
+      padding: 14px 16px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+    }
+    .chatbox-header button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .chatbox-header button:hover,
+    .chatbox-header button:focus {
+      color: var(--cor-acento);
+      outline: none;
+    }
+    .chat-log {
+      flex-grow: 1;
+      padding: 12px 16px;
+      background: var(--cor-bot-bg);
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .msg {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 15px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .msg.user {
+      align-self: flex-end;
+      background: var(--cor-user-bg);
+      color: var(--cor-user-text);
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,64,133,0.3);
+    }
+    .msg.bot {
+      align-self: flex-start;
+      background: white;
+      color: var(--cor-bot-text);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .msg.bot .highlight {
+      color: var(--cor-acento);
+      font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
-      margin: 0 5px;
+    }
+    .typing-indicator {
+      font-style: italic;
+      color: var(--cor-primaria);
+      margin-left: 5px;
+      font-size: 13px;
+      align-self: flex-start;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+      background: white;
+    }
+    #user-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      font-size: 15px;
+      font-family: var(--font-family);
+      color: #222;
+    }
+    #user-input:focus {
+      outline: none;
+      background: #f0f8ff;
+    }
+    #send-btn {
+      background: var(--cor-acento);
+      border: none;
+      padding: 0 20px;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.3s;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #send-btn:disabled {
+      background: #a1d6ff;
+      cursor: not-allowed;
+    }
+    #send-btn:hover:not(:disabled),
+    #send-btn:focus:not(:disabled) {
+      background: #0099ff;
+      outline: none;
+    }
+    /* Scrollbar para chat (WebKit) */
+    .chat-log::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-log::-webkit-scrollbar-thumb {
+      background: var(--cor-acento);
+      border-radius: 4px;
+    }
+    .chat-log::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    /* Feedback mensagem envio */
+    #form-feedback {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+      display: none;
+      text-align: center;
+    }
+    /* Menu lateral fixo */
+    #side-menu {
+      position: fixed;
+      top: 100px;
+      left: 20px;
+      background: var(--cor-primaria);
+      color: white;
+      border-radius: 8px;
+      padding: 15px;
+      width: 180px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      font-size: 14px;
+      z-index: 1001;
+    }
+    #side-menu a {
+      color: var(--cor-acento);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 12px;
       font-weight: bold;
     }
-    a.chat-suggestion:hover {
-      color: #005999;
+    #side-menu a:hover,
+    #side-menu a:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+    /* Botão voltar ao topo */
+    #back-to-top {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: var(--cor-acento);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    #back-to-top:hover,
+    #back-to-top:focus {
+      background: #0099ff;
+      outline: none;
+    }
+    @media(max-width: 850px) {
+      #side-menu {
+        display: none;
+      }
+      main {
+        max-width: 100%;
+        padding: 20px 10px;
+      }
+      .chatbox {
+        width: 100vw;
+        height: 60vh;
+        max-height: none;
+        border-radius: 0;
+        bottom: 0;
+        right: 0;
+      }
+      .chatbox-wrapper {
+        bottom: 0;
+        right: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="chat">
-    <div id="chatLog"></div>
-    <form id="inputArea">
-      <input type="text" id="inputMsg" placeholder="Digite sua mensagem..." autocomplete="off" />
-      <button type="submit" id="sendBtn">Enviar</button>
-    </form>
+
+  <header>
+    <nav>
+      <a href="#suporte">Suporte</a>
+      <a href="#assistencia">Assistência Técnica</a>
+      <a href="#venda">Venda</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="suporte" tabindex="-1">
+      <h2>Suporte Técnico</h2>
+      <div class="card" tabindex="0">
+        <i class="fas fa-tools" aria-hidden="true"></i>
+        <p>Para dúvidas sobre funcionamento do produto e instalação, conte conosco!</p>
+      </div>
+    </section>
+
+    <section id="assistencia" tabindex="-1">
+      <h2>Assistência Técnica</h2>
+      <div class="card" tabindex="0">
+        <i class="fas fa-wrench" aria-hidden="true"></i>
+        <p>Atendimento especializado para reparos e manutenção técnica.</p>
+      </div>
+    </section>
+
+    <section id="venda" tabindex="-1">
+      <h2>Venda</h2>
+      <div class="card" tabindex="0">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+        <p>Compre nossos produtos diretamente conosco com as melhores condições.</p>
+      </div>
+    </section>
+
+    <section id="contato" tabindex="-1">
+      <h2>Contato</h2>
+      <form id="contact-form" novalidate>
+        <input type="text" id="name" name="name" placeholder="Nome completo" aria-label="Nome completo" required minlength="3" />
+        <input type="email" id="email" name="email" placeholder="Email" aria-label="Email" required />
+        <textarea id="message" name="message" placeholder="Mensagem" aria-label="Mensagem" rows="4" required minlength="5"></textarea>
+        <button type="submit" aria-label="Enviar mensagem">Enviar</button>
+        <p id="form-feedback" role="alert" aria-live="assertive"></p>
+      </form>
+    </section>
+  </main>
+
+  <aside id="side-menu" aria-label="Menu de navegação lateral">
+    <a href="#suporte">Suporte</a>
+    <a href="#assistencia">Assistência Técnica</a>
+    <a href="#venda">Venda</a>
+    <a href="#contato">Contato</a>
+  </aside>
+
+  <button id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">&uarr;</button>
+
+  <!-- Chatbox wrapper -->
+  <div class="chatbox-wrapper" aria-live="polite" aria-atomic="true">
+    <button id="chatbox-toggle-btn" aria-expanded="false" aria-controls="chatbox" aria-label="Abrir chat de suporte">
+      <i class="fas fa-comments"></i>
+    </button>
+
+    <section class="chatbox" id="chatbox" role="region" aria-label="Chat de suporte">
+      <header class="chatbox-header">
+        <span>Suporte Técnico</span>
+        <button id="chatbox-close-btn" aria-label="Fechar chat">&times;</button>
+      </header>
+
+      <div class="chat-log" id="chat-log" tabindex="0" aria-live="polite" aria-relevant="additions"></div>
+
+      <form id="chat-form" aria-label="Enviar mensagem para suporte técnico">
+        <div class="chat-input-area">
+          <input id="user-input" type="text" autocomplete="off" placeholder="Digite sua mensagem..." aria-label="Mensagem" required />
+          <button type="submit" id="send-btn" aria-label="Enviar mensagem" disabled>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </form>
+    </section>
   </div>
 
   <script>
-    const chatLog = document.getElementById('chatLog');
-    const inputMsg = document.getElementById('inputMsg');
-    const inputArea = document.getElementById('inputArea');
-
-    // Variáveis para memória simples do contexto
-    let contexto = null;  // guarda o tópico atual, ex: 'internet', 'lentidao', etc
-    let esperandoEscolha = false;  // se o bot está esperando que o usuário escolha uma opção clicável
-
-    // Mensagens ofensivas para filtro
-    const mensagensOfensivas = ['burro', 'idiota', 'estúpido', 'inútil', 'imbecil', 'otário'];
-
-    function contemPalavraOfensiva(texto) {
-      texto = texto.toLowerCase();
-      return mensagensOfensivas.some(palavra => texto.includes(palavra));
-    }
-
-    // Função para inserir mensagens no chat
-    function adicionarMensagem(texto, remetente='user', html=false) {
-      const msgElem = document.createElement('div');
-      msgElem.classList.add('msg');
-      msgElem.classList.add(remetente);
-      if(html) {
-        msgElem.innerHTML = texto;
+    // Botão voltar ao topo
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 300) {
+        backToTopBtn.style.display = 'flex';
       } else {
-        msgElem.textContent = texto;
+        backToTopBtn.style.display = 'none';
       }
-      chatLog.appendChild(msgElem);
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Formulário contato
+    const contactForm = document.getElementById('contact-form');
+    const formFeedback = document.getElementById('form-feedback');
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      if (!contactForm.checkValidity()) {
+        formFeedback.textContent = 'Por favor, preencha todos os campos corretamente.';
+        formFeedback.style.color = 'red';
+        formFeedback.style.display = 'block';
+        return;
+      }
+
+      formFeedback.style.color = 'green';
+      formFeedback.textContent = 'Mensagem enviada com sucesso!';
+      formFeedback.style.display = 'block';
+      contactForm.reset();
+
+      setTimeout(() => {
+        formFeedback.style.display = 'none';
+      }, 4000);
+    });
+
+    // Chatbox
+    const chatboxToggleBtn = document.getElementById('chatbox-toggle-btn');
+    const chatbox = document.getElementById('chatbox');
+    const chatboxCloseBtn = document.getElementById('chatbox-close-btn');
+    const chatLog = document.getElementById('chat-log');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Dados básicos de respostas para simular um chat inteligente
+    const respostasBot = [
+      { pergunta: /olá|oi|ola|hey|bom dia|boa tarde|boa noite/i, resposta: 'Olá! Como posso ajudar você hoje?' },
+      { pergunta: /instalação|instalar|configurar/i, resposta: 'Para instalação, por favor siga o manual ou posso ajudar com instruções passo a passo.' },
+      { pergunta: /problema|erro|não funciona|bug/i, resposta: 'Lamento ouvir isso. Pode me descrever o problema com mais detalhes?' },
+      { pergunta: /garantia|assistência/i, resposta: 'Nossa assistência técnica cobre até 12 meses após a compra.' },
+      { pergunta: /venda|comprar|preço/i, resposta: 'Você pode comprar nossos produtos no site ou entrar em contato com nosso departamento de vendas.' },
+      { pergunta: /tchau|adeus|até logo/i, resposta: 'Até logo! Se precisar, estarei aqui para ajudar.' },
+      { pergunta: /.*/, resposta: 'Desculpe, não entendi. Pode reformular ou perguntar outra coisa?' }
+    ];
+
+    // Função para ativar/desativar botão enviar
+    userInput.addEventListener('input', () => {
+      sendBtn.disabled = userInput.value.trim().length === 0;
+    });
+
+    // Função para adicionar mensagem na conversa
+    function adicionarMensagem(texto, classe) {
+      const msg = document.createElement('div');
+      msg.classList.add('msg', classe);
+      msg.textContent = texto;
+      chatLog.appendChild(msg);
       chatLog.scrollTop = chatLog.scrollHeight;
     }
 
-    // Função que cria links clicáveis para opções do usuário
-    function criarSugestoes(lista) {
-      return lista.map(item => `<a href="#" class="chat-suggestion" onclick="responderSugestao(event, '${item}')">${item}</a>`).join(' | ');
+    // Função para simular o "digitando"
+    function mostrarDigitando() {
+      const typing = document.createElement('div');
+      typing.classList.add('typing-indicator');
+      typing.textContent = 'Suporte está digitando...';
+      chatLog.appendChild(typing);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      return typing;
     }
 
-    // Função para responder à escolha do usuário clicando na sugestão
-    function responderSugestao(event, escolha) {
-      event.preventDefault();
-      if(esperandoEscolha) {
-        adicionarMensagem(escolha, 'user');
-        processarMensagem(escolha);
-        esperandoEscolha = false;
+    // Função para gerar resposta baseada na pergunta
+    function gerarResposta(mensagem) {
+      for (const item of respostasBot) {
+        if (item.pergunta.test(mensagem)) {
+          return item.resposta;
+        }
       }
+      return 'Desculpe, não entendi. Pode reformular ou perguntar outra coisa?';
     }
 
-    // Função que processa a mensagem do usuário e retorna a resposta do bot
-    function processarMensagem(textoUsuario) {
-      textoUsuario = textoUsuario.toLowerCase();
-
-      if(contemPalavraOfensiva(textoUsuario)) {
-        contexto = null;
-        esperandoEscolha = false;
-        adicionarMensagem("Por favor, mantenha o respeito. Estou aqui para ajudar.", 'bot');
-        return;
-      }
-
-      // Saudações
-      if(/^(oi|olá|ola|bom dia|boa tarde|boa noite|e aí|salve)/.test(textoUsuario)) {
-        contexto = null;
-        esperandoEscolha = false;
-        adicionarMensagem("Olá! Sou seu assistente virtual. Em que posso ajudar hoje? Você pode perguntar sobre problemas de internet, lentidão, erros, hardware, software, vírus, impressora e mais.", 'bot');
-        return;
-      }
-
-      // Despedidas
-      if(/^(tchau|adeus|valeu|obrigado|brigado|até)/.test(textoUsuario)) {
-        contexto = null;
-        esperandoEscolha = false;
-        adicionarMensagem("Obrigado por usar nosso suporte. Se precisar, volte sempre!", 'bot');
-        return;
-      }
-
-      // Identificação de tópicos e resposta
-      if(textoUsuario.includes('internet') || textoUsuario.includes('rede') || textoUsuario.includes('wi-fi')) {
-        contexto = 'internet';
-        esperandoEscolha = true;
-        adicionarMensagem("Problemas com internet podem ter várias causas. Você quer ajuda com alguma dessas opções? " +
-          criarSugestoes(['Reiniciar roteador', 'Configurar Wi-Fi', 'Verificar cabo', 'Outra coisa']), 'bot', true);
-        return;
-      }
-
-      if(textoUsuario.includes('computador lento') || textoUsuario.includes('lentidão')) {
-        contexto = 'lentidao';
-        esperandoEscolha = true;
-        adicionarMensagem("Computador lento pode ser causado por vários fatores. Deseja dicas para: " +
-          criarSugestoes(['Limpar arquivos temporários', 'Verificar vírus', 'Desinstalar programas', 'Outra coisa']), 'bot', true);
-        return;
-      }
-
-      if(textoUsuario.includes('erro') || textoUsuario.includes('problema')) {
-        contexto = 'erro';
-        esperandoEscolha = true;
-        adicionarMensagem("Por favor, escolha uma categoria para o erro: " +
-          criarSugestoes(['Tela azul', 'Tela preta', 'Programa fechando', 'Outro erro']), 'bot', true);
-        return;
-      }
-
-      if(textoUsuario.includes('hardware') || textoUsuario.includes('peça') || textoUsuario.includes('placa') || textoUsuario.includes('fonte')) {
-        contexto = 'hardware';
-        esperandoEscolha = true;
-        adicionarMensagem("Problemas de hardware podem variar. Deseja ajuda com: " +
-          criarSugestoes(['Fonte', 'Placa-mãe', 'Memória RAM', 'Outro']), 'bot', true);
-        return;
-      }
-
-      if(textoUsuario.includes('software') || textoUsuario.includes('programa') || textoUsuario.includes('app')) {
-        contexto = 'software';
-        esperandoEscolha = true;
-        adicionarMensagem("Sobre software, você quer ajuda com: " +
-          criarSugestoes(['Instalação', 'Remoção de vírus', 'Atualização', 'Outro']), 'bot', true);
-        return;
-      }
-
-      if(textoUsuario.includes('vírus') || textoUsuario.includes('malware') || textoUsuario.includes('antivírus')) {
-        contexto = 'virus';
-        esperandoEscolha = true;
-        adicionarMensagem("Vírus são sérios! Deseja ajuda para: " +
-          criarSugestoes(['Escanear sistema', 'Remover vírus', 'Prevenção', 'Outro']), 'bot', true);
-        return;
-      }
-
-      if(textoUsuario.includes('impressora')) {
-        contexto = 'impressora';
-        esperandoEscolha = true;
-        adicionarMensagem("Problemas com impressora? Posso ajudar com: " +
-          criarSugestoes(['Conectar', 'Driver', 'Fila de impressão', 'Outro']), 'bot', true);
-        return;
-      }
-
-      // Se está esperando escolha, mas a mensagem não bate, lembra
-      if(esperandoEscolha) {
-        adicionarMensagem("Por favor, escolha uma das opções acima clicando nos links ou digite sua dúvida específica.", 'bot');
-        return;
-      }
-
-      // Respostas baseadas em contexto e escolha
-
-      switch(contexto) {
-        case 'internet':
-          if(textoUsuario.includes('reiniciar roteador')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Para reiniciar o roteador, desligue-o da tomada, espere 30 segundos e ligue novamente. Isso resolve muitos problemas de conexão.", 'bot');
-          } else if(textoUsuario.includes('configurar wi-fi')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Para configurar o Wi-Fi, acesse as configurações do seu roteador via navegador e siga o manual do fabricante. Posso ajudar a encontrar o manual se quiser.", 'bot');
-          } else if(textoUsuario.includes('verificar cabo')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Verifique se o cabo de rede está conectado firmemente tanto no computador quanto no roteador/modem. Às vezes, um cabo danificado pode causar problemas.", 'bot');
-          } else if(textoUsuario.includes('outra')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Descreva seu problema com a internet que tentarei ajudar.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        case 'lentidao':
-          if(textoUsuario.includes('limpar')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Para limpar arquivos temporários, utilize a ferramenta 'Limpeza de Disco' no Windows ou aplicativos específicos para isso.", 'bot');
-          } else if(textoUsuario.includes('vírus')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Faça um escaneamento completo com um antivírus atualizado para eliminar possíveis ameaças.", 'bot');
-          } else if(textoUsuario.includes('desinstalar')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Desinstale programas que você não utiliza para liberar recursos e melhorar a performance.", 'bot');
-          } else if(textoUsuario.includes('outra')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Por favor, descreva o problema para que eu possa ajudar melhor.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        case 'erro':
-          if(textoUsuario.includes('tela azul')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("A Tela Azul da Morte indica falha crítica. Tente anotar o código de erro e reinicie o computador. Atualizar drivers pode ajudar.", 'bot');
-          } else if(textoUsuario.includes('tela preta')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("A Tela Preta pode indicar problemas de hardware ou software. Verifique as conexões e atualize seus drivers.", 'bot');
-          } else if(textoUsuario.includes('programa fechando')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Se um programa está fechando sozinho, tente reinstalá-lo ou verificar atualizações.", 'bot');
-          } else if(textoUsuario.includes('outro')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Descreva seu erro específico para que eu possa ajudar.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        case 'hardware':
-          if(textoUsuario.includes('fonte')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Problemas na fonte podem causar desligamentos inesperados. Verifique a voltagem e cabos de energia.", 'bot');
-          } else if(textoUsuario.includes('placa-mãe')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Problemas na placa-mãe podem ser complexos. Verifique se há sinais visíveis de dano ou leve para assistência técnica.", 'bot');
-          } else if(textoUsuario.includes('memória ram') || textoUsuario.includes('ram')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Memória RAM com defeito pode causar erros e lentidão. Teste com ferramentas como MemTest86.", 'bot');
-          } else if(textoUsuario.includes('outro')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Descreva seu problema de hardware para que eu possa ajudar.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        case 'software':
-          if(textoUsuario.includes('instalação')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Para instalar um software, baixe o arquivo oficial e siga as instruções do instalador.", 'bot');
-          } else if(textoUsuario.includes('remoção de vírus') || textoUsuario.includes('vírus')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Use um antivírus confiável para remover vírus e mantenha seu sistema atualizado.", 'bot');
-          } else if(textoUsuario.includes('atualização')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Atualize seus programas regularmente para garantir segurança e desempenho.", 'bot');
-          } else if(textoUsuario.includes('outro')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Descreva sua dúvida sobre software para que eu possa ajudar.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        case 'virus':
-          if(textoUsuario.includes('escanear')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Para escanear o sistema, abra seu antivírus e faça uma varredura completa.", 'bot');
-          } else if(textoUsuario.includes('remover')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Se o antivírus identificar ameaças, siga as instruções para remover os vírus.", 'bot');
-          } else if(textoUsuario.includes('prevenção')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Mantenha seu antivírus atualizado e evite abrir arquivos suspeitos para prevenir vírus.", 'bot');
-          } else if(textoUsuario.includes('outro')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Descreva seu problema relacionado a vírus para que eu possa ajudar.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        case 'impressora':
-          if(textoUsuario.includes('conectar')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Para conectar a impressora, verifique o cabo USB ou a conexão Wi-Fi e instale os drivers necessários.", 'bot');
-          } else if(textoUsuario.includes('driver')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Baixe e instale o driver mais recente para sua impressora no site do fabricante.", 'bot');
-          } else if(textoUsuario.includes('fila de impressão')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Limpe a fila de impressão no painel de controle para resolver travamentos.", 'bot');
-          } else if(textoUsuario.includes('outro')) {
-            contexto = null; esperandoEscolha = false;
-            adicionarMensagem("Descreva seu problema com a impressora para que eu possa ajudar.", 'bot');
-          } else {
-            adicionarMensagem("Por favor, escolha uma das opções clicando nos links acima.", 'bot');
-          }
-          return;
-
-        default:
-          adicionarMensagem("Não entendi sua mensagem. Pode reformular ou escolher um dos tópicos principais? Ex: internet, lentidão, erro, hardware, software, vírus, impressora.", 'bot');
-      }
+    // Armazenar e recuperar histórico do chat no localStorage
+    function salvarHistorico(mensagens) {
+      localStorage.setItem('chatHistorico', JSON.stringify(mensagens));
+    }
+    function carregarHistorico() {
+      const data = localStorage.getItem('chatHistorico');
+      return data ? JSON.parse(data) : [];
     }
 
-    // Evento para enviar mensagem
-    inputArea.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const texto = inputMsg.value.trim();
-      if(!texto) return;
-      adicionarMensagem(texto, 'user');
-      processarMensagem(texto);
-      inputMsg.value = '';
-      inputMsg.focus();
+    // Inicializa o chat com histórico
+    function initChatHistorico() {
+      const historico = carregarHistorico();
+      historico.forEach(({texto, remetente}) => {
+        adicionarMensagem(texto, remetente);
+      });
+    }
+
+    // Histórico em memória
+    let historicoMensagens = carregarHistorico();
+
+    // Evento toggle chatbox
+    chatboxToggleBtn.addEventListener('click', () => {
+      const aberto = chatbox.classList.toggle('open');
+      chatboxToggleBtn.setAttribute('aria-expanded', aberto);
+      if (aberto) {
+        chatbox.focus();
+        userInput.focus();
+      }
     });
 
-    // Mensagem inicial do bot
-    adicionarMensagem("Olá! Sou seu assistente virtual. Como posso ajudar você hoje? Você pode dizer 'Oi' para começar.", 'bot');
+    chatboxCloseBtn.addEventListener('click', () => {
+      chatbox.classList.remove('open');
+      chatboxToggleBtn.setAttribute('aria-expanded', false);
+      chatboxToggleBtn.focus();
+    });
+
+    // Envio da mensagem
+    chatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const textoUsuario = userInput.value.trim();
+      if (!textoUsuario) return;
+
+      // Adiciona mensagem do usuário
+      adicionarMensagem(textoUsuario, 'user');
+      historicoMensagens.push({texto: textoUsuario, remetente: 'user'});
+      salvarHistorico(historicoMensagens);
+      userInput.value = '';
+      sendBtn.disabled = true;
+
+      // Simula resposta do bot
+      const typing = mostrarDigitando();
+
+      setTimeout(() => {
+        chatLog.removeChild(typing);
+        const resposta = gerarResposta(textoUsuario);
+        adicionarMensagem(resposta, 'bot');
+        historicoMensagens.push({texto: resposta, remetente: 'bot'});
+        salvarHistorico(historicoMensagens);
+      }, 1200 + Math.random() * 800); // entre 1.2s e 2s
+    });
+
+    // Inicializa chatbox com histórico salvo
+    initChatHistorico();
+
   </script>
+
 </body>
 </html>
