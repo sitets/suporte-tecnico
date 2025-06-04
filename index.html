@@ -7,8 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <script src="https://kit.fontawesome.com/a076d05399.js?v=1.0.0" crossorigin="anonymous"></script>
-
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
     :root {
       --cor-primaria: #003366;
@@ -83,22 +82,18 @@
       background: #00509e;
     }
 
-    /* Chatbox */
     .chatbox {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 320px;
-      max-width: 90vw;
       background: white;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       z-index: 9999;
       font-size: 14px;
-      font-family: 'Segoe UI', sans-serif;
     }
     .chatbox-header {
       background: var(--cor-primaria);
@@ -150,14 +145,6 @@
       font-size: 16px;
     }
 
-    .fade-in {
-      animation: fadeIn 1s ease-in;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
     footer {
       background: #333;
       color: white;
@@ -178,8 +165,7 @@
 </header>
 
 <main>
-
-  <section id="servicos" class="fade-in">
+  <section id="servicos">
     <h2>O que podemos ajudar?</h2>
     <div class="card">
       <i class="fas fa-desktop"></i>
@@ -198,7 +184,7 @@
     </div>
   </section>
 
-  <section id="contato" class="fade-in">
+  <section id="contato">
     <h2>Contato</h2>
     <form action="https://formsubmit.co/cjogo4990@gmail.com" method="POST">
       <input type="text" name="nome" placeholder="Seu nome" required />
@@ -209,20 +195,18 @@
       <button type="submit">Enviar</button>
     </form>
   </section>
-
 </main>
 
 <footer>
   <p>&copy; 2025 Suporte Técnico Moderno</p>
 </footer>
 
-<!-- Chatbox com melhorias -->
-<div class="chatbox" id="chatbox" role="region" aria-label="Assistente técnico de suporte">
+<div class="chatbox" id="chatbox">
   <div class="chatbox-header">
     Assistente Técnico
     <button id="clear-chat" title="Limpar chat"><i class="fas fa-trash-alt"></i></button>
   </div>
-  <div id="chat-log" class="chat-log" aria-live="polite" aria-relevant="additions"></div>
+  <div id="chat-log" class="chat-log"></div>
   <div class="chat-input-area">
     <input type="text" id="user-input" placeholder="Digite sua dúvida..." autocomplete="off" />
     <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
@@ -260,22 +244,15 @@
     return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
-  function showTyping() {
-    const typing = document.createElement("div");
-    typing.classList.add("msg");
-    typing.id = "typing";
-    typing.innerHTML = `<span class='user'>Assistente está digitando...</span>`;
-    chatLog.appendChild(typing);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  function hideTyping() {
-    const typing = document.getElementById("typing");
-    if (typing) typing.remove();
-  }
-
   function getBotResponse(msg) {
     const texto = msg.toLowerCase();
+    const palavrasOfensivas = ["viado", "viadu", "viado!", "va tomar no cu"];
+
+    for (let palavra of palavrasOfensivas) {
+      if (texto.includes(palavra)) {
+        return "⚠️ Por favor, evite linguagem ofensiva. Nosso assistente está aqui para ajudar com respeito.";
+      }
+    }
 
     if (texto.includes("internet") || texto.includes("wifi")) {
       return "📶 Verifique seu modem/roteador e reinicie se necessário. Veja nosso <a href='#'>guia de solução Wi-Fi</a>.";
@@ -300,25 +277,20 @@
 
   function sendMessage() {
     const msg = userInput.value.trim();
-    if (msg !== "") {
-      addUserMessage(msg);
-      showTyping();
-      setTimeout(() => {
-        hideTyping();
-        const response = getBotResponse(msg);
-        addBotMessage(response);
-      }, 900);
-      userInput.value = "";
-    }
+    if (msg === "") return;
+
+    addUserMessage(msg);
+
+    const botReply = getBotResponse(msg);
+    addBotMessage(botReply);
+
+    userInput.value = "";
+    userInput.focus();
   }
 
   sendBtn.addEventListener("click", sendMessage);
-
-  userInput.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-      sendMessage();
-      e.preventDefault();
-    }
+  userInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") sendMessage();
   });
 
   clearBtn.addEventListener("click", () => {
