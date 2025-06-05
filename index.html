@@ -450,162 +450,131 @@
   </div>
 
   <script>
-    // Botão voltar ao topo
-    const backToTopBtn = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => {
-      if(window.scrollY > 300) {
-        backToTopBtn.style.display = 'flex';
-      } else {
-        backToTopBtn.style.display = 'none';
-      }
-    });
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  const backToTopBtn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    backToTopBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+  });
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
-    // Formulário contato
-    const contactForm = document.getElementById('contact-form');
-    const formFeedback = document.getElementById('form-feedback');
-
-    contactForm.addEventListener('submit', e => {
-      e.preventDefault();
-
-      if (!contactForm.checkValidity()) {
-        formFeedback.textContent = 'Por favor, preencha todos os campos corretamente.';
-        formFeedback.style.color = 'red';
-        formFeedback.style.display = 'block';
-        return;
-      }
-
-      formFeedback.style.color = 'green';
-      formFeedback.textContent = 'Mensagem enviada com sucesso!';
+  const contactForm = document.getElementById('contact-form');
+  const formFeedback = document.getElementById('form-feedback');
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!contactForm.checkValidity()) {
+      formFeedback.textContent = 'Por favor, preencha todos os campos corretamente.';
+      formFeedback.style.color = 'red';
       formFeedback.style.display = 'block';
-      contactForm.reset();
-
-      setTimeout(() => {
-        formFeedback.style.display = 'none';
-      }, 4000);
-    });
-
-    // Chatbox
-    const chatboxToggleBtn = document.getElementById('chatbox-toggle-btn');
-    const chatbox = document.getElementById('chatbox');
-    const chatboxCloseBtn = document.getElementById('chatbox-close-btn');
-    const chatLog = document.getElementById('chat-log');
-    const chatForm = document.getElementById('chat-form');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-
-    // Dados básicos de respostas para simular um chat inteligente
-    const respostasBot = [
-      { pergunta: /olá|oi|ola|hey|bom dia|boa tarde|boa noite/i, resposta: 'Olá! Como posso ajudar você hoje?' },
-      { pergunta: /instalação|instalar|configurar/i, resposta: 'Para instalação, por favor siga o manual ou posso ajudar com instruções passo a passo.' },
-      { pergunta: /problema|erro|não funciona|bug/i, resposta: 'Lamento ouvir isso. Pode me descrever o problema com mais detalhes?' },
-      { pergunta: /garantia|assistência/i, resposta: 'Nossa assistência técnica cobre até 12 meses após a compra.' },
-      { pergunta: /venda|comprar|preço/i, resposta: 'Você pode comprar nossos produtos no site ou entrar em contato com nosso departamento de vendas.' },
-      { pergunta: /tchau|adeus|até logo/i, resposta: 'Até logo! Se precisar, estarei aqui para ajudar.' },
-      { pergunta: /.*/, resposta: 'Desculpe, não entendi. Pode reformular ou perguntar outra coisa?' }
-    ];
-
-    // Função para ativar/desativar botão enviar
-    userInput.addEventListener('input', () => {
-      sendBtn.disabled = userInput.value.trim().length === 0;
-    });
-
-    // Função para adicionar mensagem na conversa
-    function adicionarMensagem(texto, classe) {
-      const msg = document.createElement('div');
-      msg.classList.add('msg', classe);
-      msg.textContent = texto;
-      chatLog.appendChild(msg);
-      chatLog.scrollTop = chatLog.scrollHeight;
+      return;
     }
+    formFeedback.style.color = 'green';
+    formFeedback.textContent = 'Mensagem enviada com sucesso!';
+    formFeedback.style.display = 'block';
+    contactForm.reset();
+    setTimeout(() => formFeedback.style.display = 'none', 4000);
+  });
 
-    // Função para simular o "digitando"
-    function mostrarDigitando() {
-      const typing = document.createElement('div');
-      typing.classList.add('typing-indicator');
-      typing.textContent = 'Suporte está digitando...';
-      chatLog.appendChild(typing);
-      chatLog.scrollTop = chatLog.scrollHeight;
-      return typing;
-    }
+  const chatboxToggleBtn = document.getElementById('chatbox-toggle-btn');
+  const chatbox = document.getElementById('chatbox');
+  const chatboxCloseBtn = document.getElementById('chatbox-close-btn');
+  const chatLog = document.getElementById('chat-log');
+  const chatForm = document.getElementById('chat-form');
+  const userInput = document.getElementById('user-input');
+  const sendBtn = document.getElementById('send-btn');
 
-    // Função para gerar resposta baseada na pergunta
-    function gerarResposta(mensagem) {
-      for (const item of respostasBot) {
-        if (item.pergunta.test(mensagem)) {
-          return item.resposta;
-        }
-      }
-      return 'Desculpe, não entendi. Pode reformular ou perguntar outra coisa?';
-    }
+  userInput.addEventListener('input', () => {
+    sendBtn.disabled = userInput.value.trim().length === 0;
+  });
 
-    // Armazenar e recuperar histórico do chat no localStorage
-    function salvarHistorico(mensagens) {
-      localStorage.setItem('chatHistorico', JSON.stringify(mensagens));
-    }
-    function carregarHistorico() {
-      const data = localStorage.getItem('chatHistorico');
-      return data ? JSON.parse(data) : [];
-    }
+  function adicionarMensagem(texto, classe) {
+    const msg = document.createElement('div');
+    msg.classList.add('msg', classe);
+    msg.textContent = texto;
+    chatLog.appendChild(msg);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
 
-    // Inicializa o chat com histórico
-    function initChatHistorico() {
-      const historico = carregarHistorico();
-      historico.forEach(({texto, remetente}) => {
-        adicionarMensagem(texto, remetente);
+  function mostrarDigitando() {
+    const typing = document.createElement('div');
+    typing.classList.add('typing-indicator');
+    typing.textContent = 'Suporte está digitando...';
+    chatLog.appendChild(typing);
+    chatLog.scrollTop = chatLog.scrollHeight;
+    return typing;
+  }
+
+  function salvarHistorico(mensagens) {
+    localStorage.setItem('chatHistorico', JSON.stringify(mensagens));
+  }
+  function carregarHistorico() {
+    const data = localStorage.getItem('chatHistorico');
+    return data ? JSON.parse(data) : [];
+  }
+
+  async function gerarResposta(mensagem) {
+    try {
+      const resposta = await fetch("http://localhost:3000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ mensagem })
       });
+      const data = await resposta.json();
+      return data.resposta || "Desculpe, não entendi. Pode repetir?";
+    } catch (error) {
+      console.error("Erro:", error);
+      return "Erro de conexão com o servidor.";
     }
+  }
 
-    // Histórico em memória
-    let historicoMensagens = carregarHistorico();
-
-    // Evento toggle chatbox
-    chatboxToggleBtn.addEventListener('click', () => {
-      const aberto = chatbox.classList.toggle('open');
-      chatboxToggleBtn.setAttribute('aria-expanded', aberto);
-      if (aberto) {
-        chatbox.focus();
-        userInput.focus();
-      }
+  function initChatHistorico() {
+    const historico = carregarHistorico();
+    historico.forEach(({ texto, remetente }) => {
+      adicionarMensagem(texto, remetente);
     });
+  }
 
-    chatboxCloseBtn.addEventListener('click', () => {
-      chatbox.classList.remove('open');
-      chatboxToggleBtn.setAttribute('aria-expanded', false);
-      chatboxToggleBtn.focus();
-    });
+  let historicoMensagens = carregarHistorico();
 
-    // Envio da mensagem
-    chatForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const textoUsuario = userInput.value.trim();
-      if (!textoUsuario) return;
+  chatboxToggleBtn.addEventListener('click', () => {
+    const aberto = chatbox.classList.toggle('open');
+    chatboxToggleBtn.setAttribute('aria-expanded', aberto);
+    if (aberto) {
+      chatbox.focus();
+      userInput.focus();
+    }
+  });
 
-      // Adiciona mensagem do usuário
-      adicionarMensagem(textoUsuario, 'user');
-      historicoMensagens.push({texto: textoUsuario, remetente: 'user'});
-      salvarHistorico(historicoMensagens);
-      userInput.value = '';
-      sendBtn.disabled = true;
+  chatboxCloseBtn.addEventListener('click', () => {
+    chatbox.classList.remove('open');
+    chatboxToggleBtn.setAttribute('aria-expanded', false);
+    chatboxToggleBtn.focus();
+  });
 
-      // Simula resposta do bot
-      const typing = mostrarDigitando();
+  chatForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const textoUsuario = userInput.value.trim();
+    if (!textoUsuario) return;
 
-      setTimeout(() => {
-        chatLog.removeChild(typing);
-        const resposta = gerarResposta(textoUsuario);
-        adicionarMensagem(resposta, 'bot');
-        historicoMensagens.push({texto: resposta, remetente: 'bot'});
-        salvarHistorico(historicoMensagens);
-      }, 1200 + Math.random() * 800); // entre 1.2s e 2s
-    });
+    adicionarMensagem(textoUsuario, 'user');
+    historicoMensagens.push({ texto: textoUsuario, remetente: 'user' });
+    salvarHistorico(historicoMensagens);
+    userInput.value = '';
+    sendBtn.disabled = true;
 
-    // Inicializa chatbox com histórico salvo
-    initChatHistorico();
+    const typing = mostrarDigitando();
 
-  </script>
+    const resposta = await gerarResposta(textoUsuario);
 
+    chatLog.removeChild(typing);
+    adicionarMensagem(resposta, 'bot');
+    historicoMensagens.push({ texto: resposta, remetente: 'bot' });
+    salvarHistorico(historicoMensagens);
+  });
+
+  initChatHistorico();
+</script>
 </body>
 </html>
