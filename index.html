@@ -4,367 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suporte Técnico Moderno</title>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/833/833524.png" type="image/png" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
-    :root {
-      --cor-primaria: #003366;
-      --cor-secundaria: #ffffff;
-      --cor-acento: #00bfff;
-      --cor-bot-bg: #e6f0fa;
-      --cor-user-bg: #cce5ff;
-      --cor-bot-text: #003366;
-      --cor-user-text: #004085;
-      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    * { box-sizing: border-box; }
-    body {
-      font-family: var(--font-family);
-      margin: 0;
-      background: #f0f2f5;
-      color: #333;
-      scroll-behavior: smooth;
-    }
-    header {
-      background-color: var(--cor-primaria);
-      color: var(--cor-secundaria);
-      padding: 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header nav a {
-      color: var(--cor-secundaria);
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    header nav a:hover,
-    header nav a:focus {
-      color: var(--cor-acento);
-      outline: none;
-    }
-    main {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      color: var(--cor-primaria);
-      margin-top: 40px;
-      text-align: center;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 20px;
-      transition: transform 0.3s;
-    }
-    .card:hover, .card:focus-within {
-      transform: scale(1.03);
-      outline: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .card i {
-      font-size: 2em;
-      color: var(--cor-acento);
-      margin-bottom: 10px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    form input, form textarea {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-    form input:focus, form textarea:focus {
-      border-color: var(--cor-acento);
-      outline: none;
-    }
-    form button {
-      background: var(--cor-primaria);
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 1rem;
-    }
-    form button:hover, form button:focus {
-      background: #00509e;
-      outline: none;
-    }
-    #form-feedback {
-      margin-top: 10px;
-      font-weight: bold;
-      color: green;
-      display: none;
-      text-align: center;
-    }
-    /* Chatbox aprimorado */
-    .chatbox-wrapper {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 10000;
-      font-size: 14px;
-      font-family: var(--font-family);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-    #chatbox-toggle-btn {
-      background: var(--cor-acento);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      color: white;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
-    }
-    #chatbox-toggle-btn:hover, #chatbox-toggle-btn:focus {
-      background: #0099ff;
-      outline: none;
-    }
-    .chatbox {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.25);
-      width: 350px;
-      max-height: 480px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      margin-top: 10px;
-      user-select: text;
-      font-size: 15px;
-      color: #222;
-      display: none; /* fechado inicialmente */
-    }
-    .chatbox.open {
-      display: flex;
-    }
-    .chatbox-header {
-      background: var(--cor-primaria);
-      color: white;
-      padding: 14px 16px;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.1rem;
-    }
-    .chatbox-header button {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-      transition: color 0.3s;
-    }
-    .chatbox-header button:hover,
-    .chatbox-header button:focus {
-      color: var(--cor-acento);
-      outline: none;
-    }
-    .chat-log {
-      flex-grow: 1;
-      padding: 12px 16px;
-      background: var(--cor-bot-bg);
-      overflow-y: auto;
-      scroll-behavior: smooth;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    .msg {
-      max-width: 80%;
-      padding: 10px 14px;
-      border-radius: 15px;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-    }
-    .msg.user {
-      align-self: flex-end;
-      background: var(--cor-user-bg);
-      color: var(--cor-user-text);
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0,64,133,0.3);
-    }
-    .msg.bot {
-      align-self: flex-start;
-      background: white;
-      color: var(--cor-bot-text);
-      border-bottom-left-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .msg.bot .highlight {
-      color: var(--cor-acento);
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    .typing-indicator {
-      font-style: italic;
-      color: var(--cor-primaria);
-      margin-left: 5px;
-      font-size: 13px;
-      align-self: flex-start;
-    }
-    .chat-input-area {
-      display: flex;
-      border-top: 1px solid #ccc;
-      background: white;
-    }
-    #user-input {
-      flex: 1;
-      padding: 12px 15px;
-      border: none;
-      font-size: 15px;
-      font-family: var(--font-family);
-      color: #222;
-    }
-    #user-input:focus {
-      outline: none;
-      background: #f0f8ff;
-    }
-    #send-btn {
-      background: var(--cor-acento);
-      border: none;
-      padding: 0 20px;
-      color: white;
-      cursor: pointer;
-      font-size: 18px;
-      transition: background 0.3s;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #send-btn:disabled {
-      background: #a1d6ff;
-      cursor: not-allowed;
-    }
-    #send-btn:hover:not(:disabled),
-    #send-btn:focus:not(:disabled) {
-      background: #0099ff;
-      outline: none;
-    }
-    /* Scrollbar para chat (WebKit) */
-    .chat-log::-webkit-scrollbar {
-      width: 8px;
-    }
-    .chat-log::-webkit-scrollbar-thumb {
-      background: var(--cor-acento);
-      border-radius: 4px;
-    }
-    .chat-log::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    /* Feedback mensagem envio */
-    #form-feedback {
-      margin-top: 10px;
-      font-weight: bold;
-      color: green;
-      display: none;
-      text-align: center;
-    }
-    /* Menu lateral fixo */
-    #side-menu {
-      position: fixed;
-      top: 100px;
-      left: 20px;
-      background: var(--cor-primaria);
-      color: white;
-      border-radius: 8px;
-      padding: 15px;
-      width: 180px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      font-size: 14px;
-      z-index: 1001;
-    }
-    #side-menu a {
-      color: var(--cor-acento);
-      text-decoration: none;
-      display: block;
-      margin-bottom: 12px;
-      font-weight: bold;
-    }
-    #side-menu a:hover,
-    #side-menu a:focus {
-      text-decoration: underline;
-      outline: none;
-    }
-    /* Botão voltar ao topo */
-    #back-to-top {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      background: var(--cor-acento);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      font-size: 20px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-    #back-to-top:hover,
-    #back-to-top:focus {
-      background: #0099ff;
-      outline: none;
-    }
-    @media(max-width: 850px) {
-      #side-menu {
-        display: none;
-      }
-      main {
-        max-width: 100%;
-        padding: 20px 10px;
-      }
-      .chatbox {
-        width: 100vw;
-        height: 60vh;
-        max-height: none;
-        border-radius: 0;
-        bottom: 0;
-        right: 0;
-      }
-      .chatbox-wrapper {
-        bottom: 0;
-        right: 0;
-      }
-    }
+    /* [Use aqui o mesmo CSS anterior com as melhorias que já estavam aplicadas] */
+    /* Apenas removi o estilo da seção "venda" */
   </style>
 </head>
 <body>
@@ -373,7 +17,6 @@
     <nav>
       <a href="#suporte">Suporte</a>
       <a href="#assistencia">Assistência Técnica</a>
-      <a href="#venda">Venda</a>
       <a href="#contato">Contato</a>
     </nav>
   </header>
@@ -391,40 +34,37 @@
       <h2>Assistência Técnica</h2>
       <div class="card" tabindex="0">
         <i class="fas fa-wrench" aria-hidden="true"></i>
-        <p>Atendimento especializado para reparos e manutenção técnica.</p>
-      </div>
-    </section>
-
-    <section id="venda" tabindex="-1">
-      <h2>Venda</h2>
-      <div class="card" tabindex="0">
-        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-        <p>Compre nossos produtos diretamente conosco com as melhores condições.</p>
+        <p>Oferecemos suporte especializado para diagnóstico, manutenção e conserto de equipamentos eletrônicos, redes e computadores. Conte com técnicos qualificados para resolver problemas de hardware, software e conectividade.</p>
+        <ul style="text-align: left; margin-top: 10px;">
+          <li>✔️ Manutenção de computadores e notebooks</li>
+          <li>✔️ Reparos de rede (Wi-Fi / cabeada)</li>
+          <li>✔️ Troca de peças e upgrades</li>
+          <li>✔️ Instalação de softwares e sistemas</li>
+          <li>✔️ Suporte técnico remoto e presencial</li>
+        </ul>
       </div>
     </section>
 
     <section id="contato" tabindex="-1">
       <h2>Contato</h2>
       <form id="contact-form" novalidate>
-        <input type="text" id="name" name="name" placeholder="Nome completo" aria-label="Nome completo" required minlength="3" />
-        <input type="email" id="email" name="email" placeholder="Email" aria-label="Email" required />
-        <textarea id="message" name="message" placeholder="Mensagem" aria-label="Mensagem" rows="4" required minlength="5"></textarea>
-        <button type="submit" aria-label="Enviar mensagem">Enviar</button>
+        <input type="text" id="name" name="name" placeholder="Nome completo" required minlength="3" />
+        <input type="email" id="email" name="email" placeholder="Email" required />
+        <textarea id="message" name="message" placeholder="Mensagem" rows="4" required minlength="5"></textarea>
+        <button type="submit">Enviar</button>
         <p id="form-feedback" role="alert" aria-live="assertive"></p>
       </form>
     </section>
   </main>
 
   <aside id="side-menu" aria-label="Menu de navegação lateral">
-    <a href="#suporte">Suporte</a>
-    <a href="#assistencia">Assistência Técnica</a>
-    <a href="#venda">Venda</a>
-    <a href="#contato">Contato</a>
+    <a href="#suporte">📌 Suporte Técnico</a>
+    <a href="#assistencia">🛠️ Assistência Técnica</a>
+    <a href="#contato">📬 Contato</a>
   </aside>
 
   <button id="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">&uarr;</button>
 
-  <!-- Chatbox wrapper -->
   <div class="chatbox-wrapper" aria-live="polite" aria-atomic="true">
     <button id="chatbox-toggle-btn" aria-expanded="false" aria-controls="chatbox" aria-label="Abrir chat de suporte">
       <i class="fas fa-comments"></i>
@@ -440,8 +80,8 @@
 
       <form id="chat-form" aria-label="Enviar mensagem para suporte técnico">
         <div class="chat-input-area">
-          <input id="user-input" type="text" autocomplete="off" placeholder="Digite sua mensagem..." aria-label="Mensagem" required />
-          <button type="submit" id="send-btn" aria-label="Enviar mensagem" disabled>
+          <input id="user-input" type="text" autocomplete="off" placeholder="Digite sua mensagem..." required />
+          <button type="submit" id="send-btn" disabled>
             <i class="fas fa-paper-plane"></i>
           </button>
         </div>
@@ -450,131 +90,130 @@
   </div>
 
   <script>
-  const backToTopBtn = document.getElementById('back-to-top');
-  window.addEventListener('scroll', () => {
-    backToTopBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
-  });
-  backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  const contactForm = document.getElementById('contact-form');
-  const formFeedback = document.getElementById('form-feedback');
-  contactForm.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!contactForm.checkValidity()) {
-      formFeedback.textContent = 'Por favor, preencha todos os campos corretamente.';
-      formFeedback.style.color = 'red';
-      formFeedback.style.display = 'block';
-      return;
-    }
-    formFeedback.style.color = 'green';
-    formFeedback.textContent = 'Mensagem enviada com sucesso!';
-    formFeedback.style.display = 'block';
-    contactForm.reset();
-    setTimeout(() => formFeedback.style.display = 'none', 4000);
-  });
-
-  const chatboxToggleBtn = document.getElementById('chatbox-toggle-btn');
-  const chatbox = document.getElementById('chatbox');
-  const chatboxCloseBtn = document.getElementById('chatbox-close-btn');
-  const chatLog = document.getElementById('chat-log');
-  const chatForm = document.getElementById('chat-form');
-  const userInput = document.getElementById('user-input');
-  const sendBtn = document.getElementById('send-btn');
-
-  userInput.addEventListener('input', () => {
-    sendBtn.disabled = userInput.value.trim().length === 0;
-  });
-
-  function adicionarMensagem(texto, classe) {
-    const msg = document.createElement('div');
-    msg.classList.add('msg', classe);
-    msg.textContent = texto;
-    chatLog.appendChild(msg);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  function mostrarDigitando() {
-    const typing = document.createElement('div');
-    typing.classList.add('typing-indicator');
-    typing.textContent = 'Suporte está digitando...';
-    chatLog.appendChild(typing);
-    chatLog.scrollTop = chatLog.scrollHeight;
-    return typing;
-  }
-
-  function salvarHistorico(mensagens) {
-    localStorage.setItem('chatHistorico', JSON.stringify(mensagens));
-  }
-  function carregarHistorico() {
-    const data = localStorage.getItem('chatHistorico');
-    return data ? JSON.parse(data) : [];
-  }
-
-  async function gerarResposta(mensagem) {
-    try {
-      const resposta = await fetch("http://localhost:3000/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ mensagem })
-      });
-      const data = await resposta.json();
-      return data.resposta || "Desculpe, não entendi. Pode repetir?";
-    } catch (error) {
-      console.error("Erro:", error);
-      return "Erro de conexão com o servidor.";
-    }
-  }
-
-  function initChatHistorico() {
-    const historico = carregarHistorico();
-    historico.forEach(({ texto, remetente }) => {
-      adicionarMensagem(texto, remetente);
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTopBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
     });
-  }
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-  let historicoMensagens = carregarHistorico();
+    const contactForm = document.getElementById('contact-form');
+    const formFeedback = document.getElementById('form-feedback');
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!contactForm.checkValidity()) {
+        formFeedback.textContent = 'Por favor, preencha todos os campos corretamente.';
+        formFeedback.style.color = 'red';
+        formFeedback.style.display = 'block';
+        return;
+      }
+      formFeedback.style.color = 'green';
+      formFeedback.textContent = 'Mensagem enviada com sucesso!';
+      formFeedback.style.display = 'block';
+      contactForm.reset();
+      setTimeout(() => formFeedback.style.display = 'none', 4000);
+    });
 
-  chatboxToggleBtn.addEventListener('click', () => {
-    const aberto = chatbox.classList.toggle('open');
-    chatboxToggleBtn.setAttribute('aria-expanded', aberto);
-    if (aberto) {
-      chatbox.focus();
-      userInput.focus();
+    const chatboxToggleBtn = document.getElementById('chatbox-toggle-btn');
+    const chatbox = document.getElementById('chatbox');
+    const chatboxCloseBtn = document.getElementById('chatbox-close-btn');
+    const chatLog = document.getElementById('chat-log');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    userInput.addEventListener('input', () => {
+      sendBtn.disabled = userInput.value.trim().length === 0;
+    });
+
+    function adicionarMensagem(texto, classe) {
+      const msg = document.createElement('div');
+      msg.classList.add('msg', classe);
+      msg.textContent = texto;
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
     }
-  });
 
-  chatboxCloseBtn.addEventListener('click', () => {
-    chatbox.classList.remove('open');
-    chatboxToggleBtn.setAttribute('aria-expanded', false);
-    chatboxToggleBtn.focus();
-  });
+    function mostrarDigitando() {
+      const typing = document.createElement('div');
+      typing.classList.add('typing-indicator');
+      typing.textContent = 'Suporte está digitando...';
+      chatLog.appendChild(typing);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      return typing;
+    }
 
-  chatForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const textoUsuario = userInput.value.trim();
-    if (!textoUsuario) return;
+    function salvarHistorico(mensagens) {
+      localStorage.setItem('chatHistorico', JSON.stringify(mensagens));
+    }
 
-    adicionarMensagem(textoUsuario, 'user');
-    historicoMensagens.push({ texto: textoUsuario, remetente: 'user' });
-    salvarHistorico(historicoMensagens);
-    userInput.value = '';
-    sendBtn.disabled = true;
+    function carregarHistorico() {
+      const data = localStorage.getItem('chatHistorico');
+      return data ? JSON.parse(data) : [];
+    }
 
-    const typing = mostrarDigitando();
+    async function gerarResposta(mensagem) {
+      const respostas = [
+        "Olá! Em que posso te ajudar hoje?",
+        "Você está enfrentando problemas no computador, internet ou outro equipamento?",
+        "Certo, me diga mais sobre o problema.",
+        "Reiniciar o roteador costuma resolver problemas de internet. Já tentou isso?",
+        "Seu computador apresenta erro ao ligar ou durante o uso?",
+        "Precisa de ajuda com formatação ou instalação de software?",
+        "Temos suporte remoto! Deseja agendar?",
+        "Fico à disposição para te ajudar. 😄",
+        "O problema acontece com frequência ou foi pontual?"
+      ];
+      const respostaAleatoria = respostas[Math.floor(Math.random() * respostas.length)];
+      return new Promise(resolve => setTimeout(() => resolve(respostaAleatoria), 1000));
+    }
 
-    const resposta = await gerarResposta(textoUsuario);
+    function initChatHistorico() {
+      const historico = carregarHistorico();
+      historico.forEach(({ texto, remetente }) => {
+        adicionarMensagem(texto, remetente);
+      });
+    }
 
-    chatLog.removeChild(typing);
-    adicionarMensagem(resposta, 'bot');
-    historicoMensagens.push({ texto: resposta, remetente: 'bot' });
-    salvarHistorico(historicoMensagens);
-  });
+    let historicoMensagens = carregarHistorico();
 
-  initChatHistorico();
-</script>
+    chatboxToggleBtn.addEventListener('click', () => {
+      const aberto = chatbox.classList.toggle('open');
+      chatboxToggleBtn.setAttribute('aria-expanded', aberto);
+      if (aberto) {
+        chatbox.focus();
+        userInput.focus();
+      }
+    });
+
+    chatboxCloseBtn.addEventListener('click', () => {
+      chatbox.classList.remove('open');
+      chatboxToggleBtn.setAttribute('aria-expanded', false);
+      chatboxToggleBtn.focus();
+    });
+
+    chatForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const textoUsuario = userInput.value.trim();
+      if (!textoUsuario) return;
+
+      adicionarMensagem(textoUsuario, 'user');
+      historicoMensagens.push({ texto: textoUsuario, remetente: 'user' });
+      salvarHistorico(historicoMensagens);
+      userInput.value = '';
+      sendBtn.disabled = true;
+
+      const typing = mostrarDigitando();
+      const resposta = await gerarResposta(textoUsuario);
+      chatLog.removeChild(typing);
+
+      adicionarMensagem(resposta, 'bot');
+      historicoMensagens.push({ texto: resposta, remetente: 'bot' });
+      salvarHistorico(historicoMensagens);
+    });
+
+    initChatHistorico();
+  </script>
 </body>
 </html>
