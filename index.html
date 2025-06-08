@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TechSupport - Assistência Técnica</title>
-  <meta name="description" content="TechSupport - Soluções rápidas e confiáveis em assistência técnica em hardware, redes e software.">
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906343.png" type="image/png">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.rel='stylesheet'">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta name="description" content="TechSupport - Soluções rápidas e confiáveis em assistência técnica em hardware, redes e software."/>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906343.png" type="image/png"/>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.rel='stylesheet'"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -218,7 +218,7 @@
 <body>
 <nav>
   <div class="logo">TechSupport</div>
-  <button id="menu-toggle" type="button" aria-label="Abrir menu de navegação"><i class="fas fa-bars" aria-hidden="true"></i></button>
+  <button id="menu-toggle" type="button" aria-label="Abrir menu de navegação"><i class="fas fa-bars"></i></button>
   <div class="menu-links">
     <a href="#servicos">Serviços</a>
     <a href="#contato">Contato</a>
@@ -241,9 +241,9 @@
     <form action="https://formsubmit.co/cjogo4990@gmail.com" method="POST">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
-      <input type="text" name="nome" placeholder="Seu nome" aria-label="Nome" required>
-      <input type="email" name="email" placeholder="Seu e-mail" aria-label="Email" required>
-      <textarea name="mensagem" rows="5" placeholder="Escreva sua mensagem..." aria-label="Mensagem" required></textarea>
+      <input type="text" name="nome" placeholder="Seu nome" required>
+      <input type="email" name="email" placeholder="Seu e-mail" required>
+      <textarea name="mensagem" rows="5" placeholder="Escreva sua mensagem..." required></textarea>
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -268,16 +268,14 @@
 <!-- Chatbox -->
 <div class="chatbox">
   <div class="chatbox-header">Assistente Virtual</div>
-  <div class="chatbox-body" id="chatbox-body">
-    <div class="suporte">Olá! Precisa de ajuda técnica?</div>
-  </div>
+  <div class="chatbox-body" id="chatbox-body"></div>
   <div class="chatbox-footer">
-    <input type="text" id="user-input" placeholder="Digite sua pergunta..." aria-label="Digite sua pergunta">
-    <button id="send-btn" aria-label="Enviar mensagem"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+    <input type="text" id="user-input" placeholder="Digite sua pergunta...">
+    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
   </div>
 </div>
 
-<!-- Painel do Técnico -->
+<!-- Painel Técnico -->
 <div id="tecnico-panel" style="display:none; position:fixed; top:20px; left:20px; background:white; border:1px solid #ccc; padding:1rem; z-index:9999; width:300px;">
   <h3>Painel do Técnico</h3>
   <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
@@ -289,54 +287,40 @@
   const toggle = document.getElementById("menu-toggle");
   const links = document.querySelector(".menu-links");
 
-  toggle.addEventListener("click", () => {
-    links.classList.toggle("open");
-  });
+  toggle.addEventListener("click", () => links.classList.toggle("open"));
 
   const sendBtn = document.getElementById("send-btn");
   const userInput = document.getElementById("user-input");
   const chatboxBody = document.getElementById("chatbox-body");
 
-  function salvarMensagem(usuario, texto) {
+  function salvarMensagem(usuario, texto, replyTo = null) {
     const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-    mensagens.push({ usuario, texto, timestamp: new Date().toISOString() });
+    mensagens.push({ usuario, texto, timestamp: new Date().toISOString(), replyTo });
     localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
+  }
+
+  function exibirMensagem(usuario, texto) {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = usuario === "usuario" ? "user" : "suporte";
+    msgDiv.textContent = texto;
+    chatboxBody.appendChild(msgDiv);
+    chatboxBody.scrollTop = chatboxBody.scrollHeight;
   }
 
   sendBtn.addEventListener("click", () => {
     const message = userInput.value.trim();
     if (message) {
-      const userMsg = document.createElement("div");
-      userMsg.className = "user";
-      userMsg.textContent = message;
-      chatboxBody.appendChild(userMsg);
+      exibirMensagem("usuario", message);
       salvarMensagem("usuario", message);
-
-      const response = document.createElement("div");
-      response.className = "suporte";
-      if (message.toLowerCase().includes("formatação")) {
-        response.textContent = "Oferecemos formatação completa com backup de dados.";
-      } else if (message.toLowerCase().includes("rede")) {
-        response.textContent = "Realizamos diagnósticos e configurações de redes.";
-      } else if (message.toLowerCase().includes("tempo")) {
-        response.textContent = "Normalmente resolvemos problemas em até 3 dias úteis.";
-      } else if (message.toLowerCase().includes("plano")) {
-        response.textContent = "Temos planos Básico, Profissional e Empresarial. Confira na seção Planos.";
-      } else {
-        response.textContent = "Um técnico irá lhe responder em breve.";
-      }
-      chatboxBody.appendChild(response);
-      salvarMensagem("suporte", response.textContent);
-      chatboxBody.scrollTop = chatboxBody.scrollHeight;
+      let resposta = "Um técnico irá lhe responder em breve.";
+      const lower = message.toLowerCase();
+      if (lower.includes("formatação")) resposta = "Oferecemos formatação completa com backup de dados.";
+      else if (lower.includes("rede")) resposta = "Realizamos diagnósticos e configurações de redes.";
+      else if (lower.includes("tempo")) resposta = "Normalmente resolvemos problemas em até 3 dias úteis.";
+      else if (lower.includes("plano")) resposta = "Temos planos Básico, Profissional e Empresarial.";
+      exibirMensagem("suporte", resposta);
+      salvarMensagem("suporte", resposta);
       userInput.value = "";
-    }
-  });
-
-  // Painel técnico - tecla T para abrir
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "T" || e.key === "t") {
-      document.getElementById("tecnico-panel").style.display = "block";
-      carregarMensagens();
     }
   });
 
@@ -349,6 +333,7 @@
       div.textContent = `[${msg.usuario}] ${msg.texto}`;
       div.dataset.index = i;
       div.style.borderBottom = "1px solid #ccc";
+      div.style.padding = "5px";
       div.style.cursor = "pointer";
       div.addEventListener("click", () => {
         document.getElementById("resposta-tecnico").dataset.replyTo = i;
@@ -362,13 +347,30 @@
     const texto = document.getElementById("resposta-tecnico").value.trim();
     if (texto && index !== undefined) {
       const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-      mensagens.push({ usuario: "tecnico", texto, timestamp: new Date().toISOString() });
-      localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
-      alert("Resposta enviada!");
+      const usuarioOriginal = mensagens[index]?.usuario || "usuario";
+      const respostaTexto = `Resposta ao [${usuarioOriginal}]: ${texto}`;
+      salvarMensagem("tecnico", respostaTexto, index);
+      exibirMensagem("tecnico", respostaTexto);
       document.getElementById("resposta-tecnico").value = "";
+      delete document.getElementById("resposta-tecnico").dataset.replyTo;
       carregarMensagens();
     }
   }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "T" || e.key === "t") {
+      const painel = document.getElementById("tecnico-panel");
+      painel.style.display = painel.style.display === "block" ? "none" : "block";
+      carregarMensagens();
+    }
+  });
+
+  window.addEventListener("load", () => {
+    const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+    mensagens.forEach(msg => {
+      exibirMensagem(msg.usuario, msg.texto);
+    });
+  });
 </script>
 </body>
 </html>
