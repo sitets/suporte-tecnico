@@ -4,169 +4,211 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TechSupport - Assistência Técnica</title>
+  <meta name="description" content="TechSupport - Soluções rápidas e confiáveis em assistência técnica em hardware, redes e software.">
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906343.png" type="image/png">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.rel='stylesheet'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <style>
-    html {
+    :root {
+      --cor-primaria: #0d47a1;
+      --cor-secundaria: #1976d2;
+      --cor-acento: #42a5f5;
+      --cor-fundo: #f4f6f8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--cor-fundo);
+      color: #333;
+      line-height: 1.6;
       scroll-behavior: smooth;
     }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f3f4f6;
-      color: #1f2937;
-    }
-    header {
-      background: #1f2937;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
+
     nav {
+      background-color: var(--cor-primaria);
+      color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #111827;
-      padding: 0.8rem 1rem;
+      padding: 1rem 2rem;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     .logo {
-      color: white;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: bold;
     }
+
     .menu-links {
       display: flex;
       gap: 1rem;
     }
+
     .menu-links a {
       color: white;
       text-decoration: none;
-      transition: color 0.3s, transform 0.2s;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
+
     .menu-links a:hover {
-      color: #60a5fa;
-      transform: scale(1.05);
+      color: var(--cor-acento);
     }
-    main {
-      padding: 1rem;
-    }
-    section {
-      margin-bottom: 2rem;
-    }
-    .galeria-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      max-width: 500px;
-      margin: auto;
-    }
-    input, textarea, button {
-      padding: 0.8rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-    button {
-      background: #2563eb;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #1d4ed8;
-    }
-    .chatbox-wrapper {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1001;
-    }
-    #chatbox-toggle {
-      background: #2563eb;
-      color: white;
+
+    #menu-toggle {
+      display: none;
+      background: none;
       border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      color: white;
       font-size: 1.2rem;
       cursor: pointer;
     }
-    .chatbox {
-      display: none;
-      flex-direction: column;
-      background: white;
-      width: 300px;
-      height: 400px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .chatbox.open {
-      display: flex;
-    }
-    .chatbox-header {
-      background: #1f2937;
+
+    header {
+      background: linear-gradient(to right, var(--cor-primaria), var(--cor-secundaria));
       color: white;
-      padding: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
     }
-    .chat-log {
-      flex: 1;
-      padding: 0.8rem;
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    main {
+      padding: 2rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--cor-primaria);
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 500px;
+    }
+
+    input, textarea {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: var(--cor-primaria);
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--cor-secundaria);
+    }
+
+    .chatbox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .chatbox-header {
+      background-color: var(--cor-primaria);
+      color: white;
+      padding: 0.75rem;
+      font-weight: bold;
+    }
+
+    .chatbox-body {
+      height: 200px;
       overflow-y: auto;
-      font-size: 0.95rem;
+      padding: 1rem;
+      background: #f9f9f9;
     }
-    .chat-input {
+
+    .chatbox-footer {
       display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
       border-top: 1px solid #ccc;
     }
-    .chat-input input {
+
+    .chatbox-footer input {
       flex: 1;
-      border: none;
-      padding: 0.8rem;
     }
-    .chat-input button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 0.8rem;
-      cursor: pointer;
+
+    .user {
+      background: #e3f2fd;
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      align-self: flex-end;
     }
-    .msg.user {
-      text-align: right;
-      color: #1f2937;
+
+    .suporte {
+      background: #c8e6c9;
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      align-self: flex-start;
     }
-    .msg.bot {
-      text-align: left;
-      color: #2563eb;
-    }
+
     footer {
-      background: #1f2937;
+      background-color: var(--cor-primaria);
       color: white;
       text-align: center;
       padding: 1rem;
-      margin-top: 2rem;
+      margin-top: 4rem;
     }
-    @media (max-width: 600px) {
+
+    @media (max-width: 768px) {
       .menu-links {
-        flex-direction: column;
         display: none;
-        background: #111827;
+        flex-direction: column;
+        background-color: var(--cor-primaria);
         position: absolute;
         top: 60px;
-        right: 0;
-        width: 200px;
+        right: 20px;
+        padding: 1rem;
+        border-radius: 8px;
       }
+
+      #menu-toggle {
+        display: block;
+      }
+
       .menu-links.open {
         display: flex;
       }
@@ -174,87 +216,100 @@
   </style>
 </head>
 <body>
-  <!-- Conteúdo da página continua igual -->
+<nav>
+  <div class="logo">TechSupport</div>
+  <button id="menu-toggle" type="button" aria-label="Abrir menu de navegação"><i class="fas fa-bars" aria-hidden="true"></i></button>
+  <div class="menu-links">
+    <a href="#servicos">Serviços</a>
+    <a href="#contato">Contato</a>
+    <a href="#suporte">Suporte</a>
+    <a href="#faq">FAQ</a>
+    <a href="#planos">Planos</a>
+  </div>
+</nav>
+<header>
+  <h1>Bem-vindo ao TechSupport</h1>
+  <p>Soluções rápidas e confiáveis em assistência técnica</p>
+</header>
+<main>
+  <section id="servicos">
+    <h2>Nossos Serviços</h2>
+    <p>Oferecemos suporte em hardware, redes, softwares, formatação, backup, recuperação de dados e mais.</p>
+  </section>
+  <section id="contato">
+    <h2>Fale Conosco</h2>
+    <form>
+      <input type="text" placeholder="Seu nome" aria-label="Nome" required>
+      <input type="email" placeholder="Seu e-mail" aria-label="Email" required>
+      <textarea rows="5" placeholder="Escreva sua mensagem..." aria-label="Mensagem"></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+  <section id="faq">
+    <h2>Perguntas Frequentes</h2>
+    <p><strong>Quanto tempo leva para consertar um computador?</strong> Depende do problema, mas em média 1 a 3 dias úteis.</p>
+    <p><strong>Vocês retiram e entregam equipamentos?</strong> Sim! Oferecemos serviço de coleta e entrega em Salvador e região.</p>
+  </section>
+  <section id="planos">
+    <h2>Planos de Suporte</h2>
+    <ul>
+      <li><strong>Básico:</strong> Suporte remoto + diagnóstico gratuito.</li>
+      <li><strong>Profissional:</strong> Inclui visitas técnicas e descontos em peças.</li>
+      <li><strong>Empresarial:</strong> Atendimento prioritário e suporte 24/7.</li>
+    </ul>
+  </section>
+</main>
+<footer>
+  <p>&copy; 2025 TechSupport. Todos os direitos reservados.</p>
+</footer>
+<div class="chatbox">
+  <div class="chatbox-header">Assistente Virtual</div>
+  <div class="chatbox-body" id="chatbox-body">
+    <div class="suporte">Olá! Precisa de ajuda técnica?</div>
+  </div>
+  <div class="chatbox-footer">
+    <input type="text" id="user-input" placeholder="Digite sua pergunta..." aria-label="Digite sua pergunta">
+    <button id="send-btn" aria-label="Enviar mensagem"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+  </div>
+</div>
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const links = document.querySelector(".menu-links");
 
-  <script>
-    const chatToggle = document.getElementById("chatbox-toggle");
-    const chatbox = document.getElementById("chatbox");
-    const chatLog = document.getElementById("chat-log");
-    const chatInput = document.getElementById("chat-input");
+  toggle.addEventListener("click", () => {
+    links.classList.toggle("open");
+  });
 
-    function toggleChat() {
-      chatbox.classList.toggle("open");
+  const sendBtn = document.getElementById("send-btn");
+  const userInput = document.getElementById("user-input");
+  const chatboxBody = document.getElementById("chatbox-body");
+
+  sendBtn.addEventListener("click", () => {
+    const message = userInput.value.trim();
+    if (message) {
+      const userMsg = document.createElement("div");
+      userMsg.className = "user";
+      userMsg.textContent = message;
+      chatboxBody.appendChild(userMsg);
+
+      const response = document.createElement("div");
+      response.className = "suporte";
+      if (message.toLowerCase().includes("formatação")) {
+        response.textContent = "Oferecemos formatação completa com backup de dados.";
+      } else if (message.toLowerCase().includes("rede")) {
+        response.textContent = "Realizamos diagnósticos e configurações de redes.";
+      } else if (message.toLowerCase().includes("tempo")) {
+        response.textContent = "Normalmente resolvemos problemas em até 3 dias úteis.";
+      } else if (message.toLowerCase().includes("plano")) {
+        response.textContent = "Temos planos Básico, Profissional e Empresarial. Confira na seção Planos.";
+      } else {
+        response.textContent = "Um técnico irá lhe responder em breve.";
+      }
+      chatboxBody.appendChild(response);
+      chatboxBody.scrollTop = chatboxBody.scrollHeight;
+      userInput.value = "";
     }
-
-    chatToggle.addEventListener("click", toggleChat);
-
-    function sendMessage() {
-      const text = chatInput.value.trim();
-      if (text === "") return;
-      addMessage(text, "user");
-      chatInput.value = "";
-
-      setTimeout(() => {
-        const response = getBotResponse(text);
-        addMessage(response, "bot");
-      }, 600);
-    }
-
-    function addMessage(text, sender) {
-      const msg = document.createElement("div");
-      msg.className = `msg ${sender}`;
-      msg.textContent = text;
-      chatLog.appendChild(msg);
-      chatLog.scrollTop = chatLog.scrollHeight;
-
-      const historico = JSON.parse(localStorage.getItem('chatHistorico') || '[]');
-      historico.push({ texto: text, remetente: sender });
-      localStorage.setItem('chatHistorico', JSON.stringify(historico));
-    }
-
-    function getBotResponse(input) {
-      input = input.toLowerCase();
-      if (input.includes("formatação") || input.includes("formatar")) return "Oferecemos formatação segura com backup de dados. Quer agendar?";
-      if (input.includes("conserto") || input.includes("reparo")) return "Realizamos consertos em notebooks, desktops e placas. Descreva o problema.";
-      if (input.includes("wifi") || input.includes("internet")) return "Podemos ajudar com redes Wi-Fi, roteadores e sinal. O que está acontecendo?";
-      if (input.includes("software") || input.includes("programa")) return "Instalamos e configuramos softwares. Qual programa você precisa?";
-      if (input.includes("backup") || input.includes("dados")) return "Recuperamos dados e fazemos backup seguro. Qual o dispositivo?";
-      if (input.includes("preço") || input.includes("valor")) return "Podemos fornecer um orçamento sem compromisso. Qual o serviço desejado?";
-      if (input.includes("tempo") || input.includes("prazo")) return "O tempo varia conforme o serviço, mas fazemos o possível para entregar rápido.";
-      if (input.includes("local") || input.includes("endereço")) return "Estamos localizados no centro da cidade. Deseja ver o mapa?";
-      return "Obrigado pela mensagem! Um técnico responderá em breve.";
-    }
-
-    // Restaurar histórico ao abrir
-    window.addEventListener("load", () => {
-      const historico = JSON.parse(localStorage.getItem('chatHistorico') || '[]');
-      historico.forEach(m => addMessage(m.texto, m.remetente));
-      setTimeout(() => {
-        if (historico.length === 0) {
-          addMessage("Olá! Sou seu assistente técnico virtual. Como posso te ajudar hoje?", "bot");
-        }
-      }, 300);
-    });
-
-    // Menu responsivo
-    const menuToggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("menu");
-    menuToggle.addEventListener("click", () => {
-      menu.classList.toggle("open");
-    });
-
-    // Exibir botão menu em telas pequenas
-    window.addEventListener("resize", () => {
-      menuToggle.style.display = window.innerWidth < 600 ? "block" : "none";
-    });
-    window.dispatchEvent(new Event("resize"));
-
-    // Animação suave ao clicar nos links do menu
-    document.querySelectorAll('.menu-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        menu.classList.remove("open");
-      });
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
