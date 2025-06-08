@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TechSupport - Assistência Técnica</title>
-  <meta name="description" content="TechSupport - Soluções rápidas e confiáveis em assistência técnica em hardware, redes e software."/>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906343.png" type="image/png"/>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.rel='stylesheet'"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <meta name="description" content="TechSupport - Soluções rápidas e confiáveis em assistência técnica em hardware, redes e software.">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/906/906343.png" type="image/png">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.rel='stylesheet'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -169,19 +169,26 @@
       flex: 1;
     }
 
-    .user {
-      background: #e3f2fd;
+    .user, .suporte, .tecnico {
       padding: 0.5rem;
       border-radius: 8px;
       margin-bottom: 0.5rem;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background: #e3f2fd;
       align-self: flex-end;
     }
 
     .suporte {
       background: #c8e6c9;
-      padding: 0.5rem;
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
+      align-self: flex-start;
+    }
+
+    .tecnico {
+      background: #ffe082;
       align-self: flex-start;
     }
 
@@ -216,161 +223,173 @@
   </style>
 </head>
 <body>
-<nav>
-  <div class="logo">TechSupport</div>
-  <button id="menu-toggle" type="button" aria-label="Abrir menu de navegação"><i class="fas fa-bars"></i></button>
-  <div class="menu-links">
-    <a href="#servicos">Serviços</a>
-    <a href="#contato">Contato</a>
-    <a href="#suporte">Suporte</a>
-    <a href="#faq">FAQ</a>
-    <a href="#planos">Planos</a>
+  <nav>
+    <div class="logo">TechSupport</div>
+    <button id="menu-toggle"><i class="fas fa-bars"></i></button>
+    <div class="menu-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#contato">Contato</a>
+      <a href="#suporte">Suporte</a>
+      <a href="#faq">FAQ</a>
+      <a href="#planos">Planos</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Bem-vindo ao TechSupport</h1>
+    <p>Soluções rápidas e confiáveis em assistência técnica</p>
+  </header>
+
+  <main>
+    <section id="servicos">
+      <h2>Nossos Serviços</h2>
+      <p>Oferecemos suporte em hardware, redes, softwares, formatação, backup, recuperação de dados e mais.</p>
+    </section>
+
+    <section id="contato">
+      <h2>Fale Conosco</h2>
+      <form action="https://formsubmit.co/cjogo4990@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <input type="email" name="email" placeholder="Seu e-mail" required>
+        <textarea name="mensagem" rows="5" placeholder="Escreva sua mensagem..." required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <section id="faq">
+      <h2>Perguntas Frequentes</h2>
+      <p><strong>Quanto tempo leva para consertar um computador?</strong> Depende do problema, mas em média 1 a 3 dias úteis.</p>
+      <p><strong>Vocês retiram e entregam equipamentos?</strong> Sim! Oferecemos serviço de coleta e entrega em Salvador e região.</p>
+    </section>
+
+    <section id="planos">
+      <h2>Planos de Suporte</h2>
+      <ul>
+        <li><strong>Básico:</strong> Suporte remoto + diagnóstico gratuito.</li>
+        <li><strong>Profissional:</strong> Inclui visitas técnicas e descontos em peças.</li>
+        <li><strong>Empresarial:</strong> Atendimento prioritário e suporte 24/7.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TechSupport. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Chatbox -->
+  <div class="chatbox">
+    <div class="chatbox-header">Assistente Virtual</div>
+    <div class="chatbox-body" id="chatbox-body">
+      <div class="suporte">Olá! Precisa de ajuda técnica?</div>
+    </div>
+    <div class="chatbox-footer">
+      <input type="text" id="user-input" placeholder="Digite sua pergunta..." />
+      <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
   </div>
-</nav>
-<header>
-  <h1>Bem-vindo ao TechSupport</h1>
-  <p>Soluções rápidas e confiáveis em assistência técnica</p>
-</header>
-<main>
-  <section id="servicos">
-    <h2>Nossos Serviços</h2>
-    <p>Oferecemos suporte em hardware, redes, softwares, formatação, backup, recuperação de dados e mais.</p>
-  </section>
-  <section id="contato">
-    <h2>Fale Conosco</h2>
-    <form action="https://formsubmit.co/cjogo4990@gmail.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
-      <input type="text" name="nome" placeholder="Seu nome" required>
-      <input type="email" name="email" placeholder="Seu e-mail" required>
-      <textarea name="mensagem" rows="5" placeholder="Escreva sua mensagem..." required></textarea>
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
-  <section id="faq">
-    <h2>Perguntas Frequentes</h2>
-    <p><strong>Quanto tempo leva para consertar um computador?</strong> Depende do problema, mas em média 1 a 3 dias úteis.</p>
-    <p><strong>Vocês retiram e entregam equipamentos?</strong> Sim! Oferecemos serviço de coleta e entrega em Salvador e região.</p>
-  </section>
-  <section id="planos">
-    <h2>Planos de Suporte</h2>
-    <ul>
-      <li><strong>Básico:</strong> Suporte remoto + diagnóstico gratuito.</li>
-      <li><strong>Profissional:</strong> Inclui visitas técnicas e descontos em peças.</li>
-      <li><strong>Empresarial:</strong> Atendimento prioritário e suporte 24/7.</li>
-    </ul>
-  </section>
-</main>
-<footer>
-  <p>&copy; 2025 TechSupport. Todos os direitos reservados.</p>
-</footer>
 
-<!-- Chatbox -->
-<div class="chatbox">
-  <div class="chatbox-header">Assistente Virtual</div>
-  <div class="chatbox-body" id="chatbox-body"></div>
-  <div class="chatbox-footer">
-    <input type="text" id="user-input" placeholder="Digite sua pergunta...">
-    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+  <!-- Painel Técnico -->
+  <div id="tecnico-panel" style="display:none; position:fixed; top:20px; left:20px; background:white; border:1px solid #ccc; padding:1rem; z-index:9999; width:300px;">
+    <h3>Painel do Técnico</h3>
+    <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
+    <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
+    <button onclick="responderTecnico()">Responder</button>
   </div>
-</div>
 
-<!-- Painel Técnico -->
-<div id="tecnico-panel" style="display:none; position:fixed; top:20px; left:20px; background:white; border:1px solid #ccc; padding:1rem; z-index:9999; width:300px;">
-  <h3>Painel do Técnico</h3>
-  <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
-  <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
-  <button onclick="responderTecnico()">Responder</button>
-</div>
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const links = document.querySelector(".menu-links");
 
-<script>
-  const toggle = document.getElementById("menu-toggle");
-  const links = document.querySelector(".menu-links");
-
-  toggle.addEventListener("click", () => links.classList.toggle("open"));
-
-  const sendBtn = document.getElementById("send-btn");
-  const userInput = document.getElementById("user-input");
-  const chatboxBody = document.getElementById("chatbox-body");
-
-  function salvarMensagem(usuario, texto, replyTo = null) {
-    const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-    mensagens.push({ usuario, texto, timestamp: new Date().toISOString(), replyTo });
-    localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
-  }
-
-  function exibirMensagem(usuario, texto) {
-    const msgDiv = document.createElement("div");
-    msgDiv.className = usuario === "usuario" ? "user" : "suporte";
-    msgDiv.textContent = texto;
-    chatboxBody.appendChild(msgDiv);
-    chatboxBody.scrollTop = chatboxBody.scrollHeight;
-  }
-
-  sendBtn.addEventListener("click", () => {
-    const message = userInput.value.trim();
-    if (message) {
-      exibirMensagem("usuario", message);
-      salvarMensagem("usuario", message);
-      let resposta = "Um técnico irá lhe responder em breve.";
-      const lower = message.toLowerCase();
-      if (lower.includes("formatação")) resposta = "Oferecemos formatação completa com backup de dados.";
-      else if (lower.includes("rede")) resposta = "Realizamos diagnósticos e configurações de redes.";
-      else if (lower.includes("tempo")) resposta = "Normalmente resolvemos problemas em até 3 dias úteis.";
-      else if (lower.includes("plano")) resposta = "Temos planos Básico, Profissional e Empresarial.";
-      exibirMensagem("suporte", resposta);
-      salvarMensagem("suporte", resposta);
-      userInput.value = "";
-    }
-  });
-
-  function carregarMensagens() {
-    const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-    const lista = document.getElementById("mensagens-lista");
-    lista.innerHTML = "";
-    mensagens.forEach((msg, i) => {
-      const div = document.createElement("div");
-      div.textContent = `[${msg.usuario}] ${msg.texto}`;
-      div.dataset.index = i;
-      div.style.borderBottom = "1px solid #ccc";
-      div.style.padding = "5px";
-      div.style.cursor = "pointer";
-      div.addEventListener("click", () => {
-        document.getElementById("resposta-tecnico").dataset.replyTo = i;
-      });
-      lista.appendChild(div);
+    toggle.addEventListener("click", () => {
+      links.classList.toggle("open");
     });
-  }
 
-  function responderTecnico() {
-    const index = document.getElementById("resposta-tecnico").dataset.replyTo;
-    const texto = document.getElementById("resposta-tecnico").value.trim();
-    if (texto && index !== undefined) {
+    const sendBtn = document.getElementById("send-btn");
+    const userInput = document.getElementById("user-input");
+    const chatboxBody = document.getElementById("chatbox-body");
+
+    function salvarMensagem(usuario, texto) {
       const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-      const usuarioOriginal = mensagens[index]?.usuario || "usuario";
-      const respostaTexto = `Resposta ao [${usuarioOriginal}]: ${texto}`;
-      salvarMensagem("tecnico", respostaTexto, index);
-      exibirMensagem("tecnico", respostaTexto);
-      document.getElementById("resposta-tecnico").value = "";
-      delete document.getElementById("resposta-tecnico").dataset.replyTo;
-      carregarMensagens();
+      mensagens.push({ usuario, texto, timestamp: new Date().toISOString() });
+      localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
     }
-  }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "T" || e.key === "t") {
-      const painel = document.getElementById("tecnico-panel");
-      painel.style.display = painel.style.display === "block" ? "none" : "block";
-      carregarMensagens();
+    function exibirMensagem(usuario, texto) {
+      const msg = document.createElement("div");
+      msg.className = usuario;
+      msg.textContent = texto;
+      chatboxBody.appendChild(msg);
+      chatboxBody.scrollTop = chatboxBody.scrollHeight;
     }
-  });
 
-  window.addEventListener("load", () => {
-    const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-    mensagens.forEach(msg => {
-      exibirMensagem(msg.usuario, msg.texto);
+    sendBtn.addEventListener("click", () => {
+      const message = userInput.value.trim();
+      if (message) {
+        exibirMensagem("user", message);
+        salvarMensagem("usuario", message);
+
+        let resposta = "Um técnico irá lhe responder em breve.";
+        const msg = message.toLowerCase();
+        if (msg.includes("formatação")) resposta = "Oferecemos formatação completa com backup de dados.";
+        else if (msg.includes("rede")) resposta = "Realizamos diagnósticos e configurações de redes.";
+        else if (msg.includes("tempo")) resposta = "Normalmente resolvemos problemas em até 3 dias úteis.";
+        else if (msg.includes("plano")) resposta = "Temos planos Básico, Profissional e Empresarial. Confira na seção Planos.";
+
+        exibirMensagem("suporte", resposta);
+        salvarMensagem("suporte", resposta);
+
+        userInput.value = "";
+      }
     });
-  });
-</script>
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "T" || e.key === "t") {
+        document.getElementById("tecnico-panel").style.display = "block";
+        carregarMensagens();
+      }
+    });
+
+    function carregarMensagens() {
+      const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+      const lista = document.getElementById("mensagens-lista");
+      lista.innerHTML = "";
+      mensagens.forEach((msg, i) => {
+        const div = document.createElement("div");
+        div.textContent = `[${msg.usuario}] ${msg.texto}`;
+        div.dataset.index = i;
+        div.style.borderBottom = "1px solid #ccc";
+        div.style.cursor = "pointer";
+        div.addEventListener("click", () => {
+          document.getElementById("resposta-tecnico").dataset.replyTo = i;
+        });
+        lista.appendChild(div);
+      });
+    }
+
+    function responderTecnico() {
+      const respostaInput = document.getElementById("resposta-tecnico");
+      const texto = respostaInput.value.trim();
+      if (!texto) return;
+
+      const replyTo = respostaInput.dataset.replyTo ? Number(respostaInput.dataset.replyTo) : null;
+      const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+
+      let prefixo = "";
+      if (replyTo !== null && mensagens[replyTo]) {
+        prefixo = `Resposta ao [${mensagens[replyTo].usuario}]: `;
+      }
+
+      const respostaFinal = prefixo + texto;
+
+      salvarMensagem("tecnico", respostaFinal);
+      exibirMensagem("tecnico", respostaFinal);
+
+      respostaInput.value = "";
+      delete respostaInput.dataset.replyTo;
+
+      carregarMensagens();
+    }
+  </script>
 </body>
-</html>
