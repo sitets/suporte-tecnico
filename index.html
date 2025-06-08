@@ -238,10 +238,12 @@
   </section>
   <section id="contato">
     <h2>Fale Conosco</h2>
-    <form>
-      <input type="text" placeholder="Seu nome" aria-label="Nome" required>
-      <input type="email" placeholder="Seu e-mail" aria-label="Email" required>
-      <textarea rows="5" placeholder="Escreva sua mensagem..." aria-label="Mensagem"></textarea>
+    <form action="https://formsubmit.co/cjogo4990@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+      <input type="text" name="nome" placeholder="Seu nome" aria-label="Nome" required>
+      <input type="email" name="email" placeholder="Seu e-mail" aria-label="Email" required>
+      <textarea name="mensagem" rows="5" placeholder="Escreva sua mensagem..." aria-label="Mensagem" required></textarea>
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -262,6 +264,8 @@
 <footer>
   <p>&copy; 2025 TechSupport. Todos os direitos reservados.</p>
 </footer>
+
+<!-- Chatbox -->
 <div class="chatbox">
   <div class="chatbox-header">Assistente Virtual</div>
   <div class="chatbox-body" id="chatbox-body">
@@ -272,6 +276,15 @@
     <button id="send-btn" aria-label="Enviar mensagem"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
   </div>
 </div>
+
+<!-- Painel do Técnico -->
+<div id="tecnico-panel" style="display:none; position:fixed; top:20px; left:20px; background:white; border:1px solid #ccc; padding:1rem; z-index:9999; width:300px;">
+  <h3>Painel do Técnico</h3>
+  <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
+  <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
+  <button onclick="responderTecnico()">Responder</button>
+</div>
+
 <script>
   const toggle = document.getElementById("menu-toggle");
   const links = document.querySelector(".menu-links");
@@ -284,6 +297,12 @@
   const userInput = document.getElementById("user-input");
   const chatboxBody = document.getElementById("chatbox-body");
 
+  function salvarMensagem(usuario, texto) {
+    const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+    mensagens.push({ usuario, texto, timestamp: new Date().toISOString() });
+    localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
+  }
+
   sendBtn.addEventListener("click", () => {
     const message = userInput.value.trim();
     if (message) {
@@ -291,6 +310,7 @@
       userMsg.className = "user";
       userMsg.textContent = message;
       chatboxBody.appendChild(userMsg);
+      salvarMensagem("usuario", message);
 
       const response = document.createElement("div");
       response.className = "suporte";
@@ -306,10 +326,49 @@
         response.textContent = "Um técnico irá lhe responder em breve.";
       }
       chatboxBody.appendChild(response);
+      salvarMensagem("suporte", response.textContent);
       chatboxBody.scrollTop = chatboxBody.scrollHeight;
       userInput.value = "";
     }
   });
+
+  // Painel técnico - tecla T para abrir
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "T" || e.key === "t") {
+      document.getElementById("tecnico-panel").style.display = "block";
+      carregarMensagens();
+    }
+  });
+
+  function carregarMensagens() {
+    const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+    const lista = document.getElementById("mensagens-lista");
+    lista.innerHTML = "";
+    mensagens.forEach((msg, i) => {
+      const div = document.createElement("div");
+      div.textContent = `[${msg.usuario}] ${msg.texto}`;
+      div.dataset.index = i;
+      div.style.borderBottom = "1px solid #ccc";
+      div.style.cursor = "pointer";
+      div.addEventListener("click", () => {
+        document.getElementById("resposta-tecnico").dataset.replyTo = i;
+      });
+      lista.appendChild(div);
+    });
+  }
+
+  function responderTecnico() {
+    const index = document.getElementById("resposta-tecnico").dataset.replyTo;
+    const texto = document.getElementById("resposta-tecnico").value.trim();
+    if (texto && index !== undefined) {
+      const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+      mensagens.push({ usuario: "tecnico", texto, timestamp: new Date().toISOString() });
+      localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
+      alert("Resposta enviada!");
+      document.getElementById("resposta-tecnico").value = "";
+      carregarMensagens();
+    }
+  }
 </script>
 </body>
 </html>
