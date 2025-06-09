@@ -290,14 +290,14 @@
     </div>
   </div>
 
-  <!-- Painel Técnico -->
   <div id="tecnico-panel" style="display:none; position:fixed; top:20px; left:20px; background:white; border:1px solid #ccc; padding:1rem; z-index:9999; width:300px;">
-    <h3>Painel do Técnico</h3>
-    <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
-    <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
-    <button onclick="responderTecnico()">Responder</button>
-  </div>
-
+  <h3>Painel do Técnico</h3>
+  <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
+  <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
+  <button onclick="responderTecnico()">Responder</button>
+  <button onclick="limparChat()" style="margin-top: 0.5rem; background: #e53935; color: white;">Limpar Chat</button>
+</div>
+  
   <script>
     const toggle = document.getElementById("menu-toggle");
     const links = document.querySelector(".menu-links");
