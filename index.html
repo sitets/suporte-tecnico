@@ -290,39 +290,26 @@
     </div>
   </div>
 
+  <!-- Painel do Técnico -->
   <div id="tecnico-panel" style="display:none; position:fixed; top:20px; left:20px; background:white; border:1px solid #ccc; padding:1rem; z-index:9999; width:300px;">
-  <h3>Painel do Técnico</h3>
-  <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
-  <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
-  <button onclick="responderTecnico()">Responder</button>
-  <button onclick="limparChat()" style="margin-top: 0.5rem; background: #e53935; color: white;">Limpar Chat</button>
-</div>
-  
+    <h3>Painel do Técnico</h3>
+    <div id="mensagens-lista" style="max-height:200px; overflow-y:auto; margin-bottom:1rem;"></div>
+    <textarea id="resposta-tecnico" placeholder="Digite a resposta..." rows="3" style="width:100%;"></textarea>
+    <button onclick="responderTecnico()">Responder</button>
+    <button onclick="limparChat()" style="margin-top: 0.5rem; background: #e53935; color: white;">Limpar Chat</button>
+  </div>
+
+  <!-- JavaScript Corrigido -->
   <script>
     const toggle = document.getElementById("menu-toggle");
     const links = document.querySelector(".menu-links");
-
-    toggle.addEventListener("click", () => {
-      links.classList.toggle("open");
-    });
-
     const sendBtn = document.getElementById("send-btn");
     const userInput = document.getElementById("user-input");
     const chatboxBody = document.getElementById("chatbox-body");
 
-    function salvarMensagem(usuario, texto) {
-      const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
-      mensagens.push({ usuario, texto, timestamp: new Date().toISOString() });
-      localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
-    }
-
-    function exibirMensagem(usuario, texto) {
-      const msg = document.createElement("div");
-      msg.className = usuario;
-      msg.textContent = texto;
-      chatboxBody.appendChild(msg);
-      chatboxBody.scrollTop = chatboxBody.scrollHeight;
-    }
+    toggle.addEventListener("click", () => {
+      links.classList.toggle("open");
+    });
 
     sendBtn.addEventListener("click", () => {
       const message = userInput.value.trim();
@@ -343,6 +330,20 @@
         userInput.value = "";
       }
     });
+
+    function exibirMensagem(usuario, texto) {
+      const msg = document.createElement("div");
+      msg.className = usuario;
+      msg.textContent = texto;
+      chatboxBody.appendChild(msg);
+      chatboxBody.scrollTop = chatboxBody.scrollHeight;
+    }
+
+    function salvarMensagem(usuario, texto) {
+      const mensagens = JSON.parse(localStorage.getItem("chatMensagens")) || [];
+      mensagens.push({ usuario, texto, timestamp: new Date().toISOString() });
+      localStorage.setItem("chatMensagens", JSON.stringify(mensagens));
+    }
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "T" || e.key === "t") {
@@ -367,12 +368,14 @@
         lista.appendChild(div);
       });
     }
-    
+
     function limparChat() {
-    if (confirm("Tem certeza que deseja limpar todas as mensagens do chat?")) {
-      localStorage.removeItem("chatMensagens");
-      chatboxBody.innerHTML = "";
-      document.getElementById("mensagens-lista").innerHTML = "";
+      if (confirm("Tem certeza que deseja limpar todas as mensagens do chat?")) {
+        localStorage.removeItem("chatMensagens");
+        chatboxBody.innerHTML = "";
+        document.getElementById("mensagens-lista").innerHTML = "";
+      }
+    }
 
     function responderTecnico() {
       const respostaInput = document.getElementById("resposta-tecnico");
@@ -399,3 +402,4 @@
     }
   </script>
 </body>
+</html>
