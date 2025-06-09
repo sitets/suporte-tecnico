@@ -367,6 +367,12 @@
         lista.appendChild(div);
       });
     }
+    
+    function limparChat() {
+    if (confirm("Tem certeza que deseja limpar todas as mensagens do chat?")) {
+      localStorage.removeItem("chatMensagens");
+      chatboxBody.innerHTML = "";
+      document.getElementById("mensagens-lista").innerHTML = "";
 
     function responderTecnico() {
       const respostaInput = document.getElementById("resposta-tecnico");
