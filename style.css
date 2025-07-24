@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: linear-gradient(to right, #ffe6f0, #fff0f5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 150px;
+}
+
+.container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(255, 182, 193, 0.3);
+  width: 100%;
+  max-width: 420px;
+  border: 2px solid #ffb6c1;
+  position: relative;
+}
+
+.container::before {
+  content: "🦋";
+  font-size: 30px;
+  position: absolute;
+  top: -20px;
+  right: -15px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #d63384;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #c71585;
+  font-weight: 500;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ffb6c1;
+  border-radius: 6px;
+  transition: border 0.3s ease;
+  background-color: #fff5f8;
+}
+
+input:focus {
+  border-color: #ff69b4;
+  outline: none;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #ff69b4;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #e75480;
+}
+
+#mensagem {
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: center;
+  color: #28a745;
+}
+
+/* Estilo da lista de agendamentos */
+
+#agendamentos {
+  margin-top: 30px;
+}
+
+#agendamentos h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #d63384;
+  text-align: center;
+  position: relative;
+}
+
+#agendamentos h2::after {
+  content: " 💅";
+  font-size: 20px;
+}
+
+#lista-agendamentos {
+  list-style: none;
+  padding-left: 0;
+}
+
+#lista-agendamentos li {
+  padding: 10px;
+  border-bottom: 1px solid #ffc0cb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff0f5;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#lista-agendamentos button {
+  background: #ff85a2;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#lista-agendamentos button:hover {
+  background: #ff638d;
+}
+/* Fade-in do container */
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilo da mensagem */
+#mensagem {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  transition: opacity 0.3s;
+}
+
+/* Estilo de erro nos campos */
+input.erro {
+  border: 2px solid red;
+  background-color: #ffe5e5;
+}
